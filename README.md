@@ -1,64 +1,64 @@
-# Shadow-Core
+## Shadow-Core
 My own little core mod.
 
 Most notably this mod has utilities for checking for multiblocks in the world.
 
 
-MultiBlock:
+#MultiBlock:
 
-A MultiBlock object will used its specified parameters as a basis for building a three dimensional array, representing the structure in world.
+A MultiBlock object will use its specified parameters as a basis for building a three dimensional array, representing the structure in world.  
 Parameters can be of any object, but will either be converted or disregarded if invalid.
 
-InputLists can be used if the same order of parameters is to be used multiple times.
-The class extends ArrayList<Object>, and is treated differently than normal ArrayLists.
-Everything in the InputList will be copied to the MultiBlock's parameter list, as if manually inputted by hand.
+InputList can be used to use the same parameters multiple times.  
+The class extends ArrayList<Object>, and is treated differently than normal ArrayLists.  
+Everything in the InputList will be copied to the MultiBlock's parameter list, as if manually inputted by hand.  
 
-null will be converted to an always valid StructureBlock
-Items will be converted to Blocks if possible.
-Blocks will be converted to a StructureBlock checking for that block disregarding metadata.
-ItemStacks will be converted to a StructureBlock checking for that block with the ItemStack's data.
-ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.
-Special characters will be converted to their specified StructureBlock.
-Operators, after having taken its operands, will also be converted into a StructureBlock.
+null will be converted to an always valid StructureBlock.  
+Items will be converted to Blocks if possible, or null.  
+Blocks will be converted to a StructureBlock checking for that block disregarding metadata.  
+ItemStacks will be converted to a StructureBlock that checks for the Item converted to a Block, with the same metadata as the ItemStack's damage, if applicable.  
+ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.  
+Special characters will be converted to their specified StructureBlock.  
+Operators, after having taken its operands, will also be converted into a StructureBlock.  
 
-To make debugging simpler, the toString function was overridden and returns the array as a string. 
-Note: The array is givven in order of the smallest to largest axes.
+To make debugging simpler, the toString function was overridden and returns the array as a string.  
+Note: The array is givven in order of the smallest to largest axes.  
 
 
-public non-static functions:
+#public non-static functions:
 
-setRotationXAxis(boolean bool)  default: false
-setRotationYAxis(boolean bool)  default: true
-setRotationZAxis(boolean bool)  default: false
-    Sets rotation around axis.
-    Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.
+setRotationXAxis(boolean bool)  default: false  
+setRotationYAxis(boolean bool)  default: true  
+setRotationZAxis(boolean bool)  default: false  
+   Sets rotation around axis.  
+   Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.  
 
-rotatesAroundXAxis()
-rotatesAroundYAxis()
-rotatesAroundZAxis()
-    Returns boolean
+rotatesAroundXAxis()  
+rotatesAroundYAxis()  
+rotatesAroundZAxis()  
+   Returns boolean  
 
-findStructure(World world, int x, int y, int z)
-    Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.
-    Returns new Structure or null if none were found.
+findStructure(World world, int x, int y, int z)  
+   Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.  
+   Returns a new Structure or null if none were found.  
 
-findStructures(World world, int x, int y, int z)
-    Will try to find all structures overlapping specified coordinate the world.
-    Returns an ArrayList<Stucture> that's empty if none are found.
+findStructures(World world, int x, int y, int z)  
+   Will try to find all structures overlapping specified coordinate the world.  
+   Returns an ArrayList<Stucture> that's empty if none are found.  
 
-validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
-    Used by structure to validate if it's still valid.
+validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)  
+   Used by Structure to validate if it's still valid.  
 
-sizeX()
-sizeY()
-sizeZ()
-    Returns the size of the three dimensional array
+sizeX()  
+sizeY()  
+sizeZ()  
+   Returns the size of the three dimensional array.  
 
-toString()
-    Returns the array in string format, with the axis with the lowest size first.
+toString()  
+   Returns the array in string format, with the axis with the lowest size first.  
 
-debugStructureArray()
-    Prints the structure array in the console
+debugStructureArray()  
+   Prints the structure array in the console.  
 
 Special Characters:
     ' ' = anything. doesn't matter what block it is.
