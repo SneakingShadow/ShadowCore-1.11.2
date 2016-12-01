@@ -1,4 +1,4 @@
-# SneakingShadow-s-Core-Mod
+# Shadow-Core
 My own little core mod.
 
 Most notably it has/adds utilities for checking for multiblocks in the world.
@@ -14,6 +14,30 @@ The parameters that don't extend StructureBlock will be converted into structure
 
 To make debugging simpler, the toString function was overridden and returns the array as a string. 
 Note: The array is givven in order of the smallest to largest axes.
+
+
+
+setRotationXAxis(boolean bool)
+setRotationYAxis(boolean bool)
+setRotationZAxis(boolean bool)
+
+rotatesAroundXAxis()
+rotatesAroundYAxis()
+rotatesAroundZAxis()
+
+findStructure(World world, int x, int y, int z)
+findStructures(World world, int x, int y, int z)
+
+validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
+
+sizeX()
+sizeY()
+sizeZ()
+
+toString()
+
+debugStructureArray()
+
 
 
 
