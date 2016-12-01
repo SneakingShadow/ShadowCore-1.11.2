@@ -25,40 +25,40 @@ To make debugging simpler, the toString function was overridden and returns the 
 Note: The array is givven in order of the smallest to largest axes.
 
 
-
 public non-static functions:
-    setRotationXAxis(boolean bool)  default: false
-    setRotationYAxis(boolean bool)  default: true
-    setRotationZAxis(boolean bool)  default: false
-        Sets rotation around axis.
-        Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.
 
-    rotatesAroundXAxis()
-    rotatesAroundYAxis()
-    rotatesAroundZAxis()
-        Returns boolean
+setRotationXAxis(boolean bool)  default: false
+setRotationYAxis(boolean bool)  default: true
+setRotationZAxis(boolean bool)  default: false
+    Sets rotation around axis.
+    Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.
 
-    findStructure(World world, int x, int y, int z)
-        Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.
-        Returns new Structure or null if none were found.
+rotatesAroundXAxis()
+rotatesAroundYAxis()
+rotatesAroundZAxis()
+    Returns boolean
 
-    findStructures(World world, int x, int y, int z)
-        Will try to find all structures overlapping specified coordinate the world.
-        Returns an ArrayList<Stucture> that's empty if none are found.
+findStructure(World world, int x, int y, int z)
+    Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.
+    Returns new Structure or null if none were found.
 
-    validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
-        Used by structure to validate if it's still valid.
+findStructures(World world, int x, int y, int z)
+    Will try to find all structures overlapping specified coordinate the world.
+    Returns an ArrayList<Stucture> that's empty if none are found.
 
-    sizeX()
-    sizeY()
-    sizeZ()
-        Returns the size of the three dimensional array
+validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
+    Used by structure to validate if it's still valid.
 
-    toString()
-        Returns the array in string format, with the axis with the lowest size first.
+sizeX()
+sizeY()
+sizeZ()
+    Returns the size of the three dimensional array
 
-    debugStructureArray()
-        Prints the structure array in the console
+toString()
+    Returns the array in string format, with the axis with the lowest size first.
+
+debugStructureArray()
+    Prints the structure array in the console
 
 Special Characters:
     ' ' = anything. doesn't matter what block it is.
