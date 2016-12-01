@@ -1,48 +1,67 @@
 # Shadow-Core
 My own little core mod.
 
-Most notably it has/adds utilities for checking for multiblocks in the world.
+Most notably this mod has utilities for checking for multiblocks in the world.
 
-The multiblock functionality is used by creating a MultiBlock object, 
-which is called upon in order to check for that multiblock in the world. 
 
-The parameters inputted upon initialization will decide the structure of the multiblock, and will be stored in an array. 
+MultiBlock:
 
-Blocks in the world will be compared to the objects in the array, that all extends the StructureBlock class. 
+A MultiBlock object will used its specified parameters as a basis for building a three dimensional array, representing the structure in world.
+Parameters can be of any object, but will either be converted or disregarded if invalid.
 
-The parameters that don't extend StructureBlock will be converted into structure blocks, or disregarded without throwing an error.
+InputLists can be used if the same order of parameters is to be used multiple times.
+The class extends ArrayList<Object>, and is treated differently than normal ArrayLists.
+Everything in the InputList will be copied to the MultiBlock's parameter list, as if manually inputted by hand.
+
+null will be converted to an always valid StructureBlock
+Items will be converted to Blocks if possible.
+Blocks will be converted to a StructureBlock checking for that block disregarding metadata.
+ItemStacks will be converted to a StructureBlock checking for that block with the ItemStack's data.
+ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.
+Special characters will be converted to their specified StructureBlock.
+Operators, after having taken its operands, will also be converted into a StructureBlock.
 
 To make debugging simpler, the toString function was overridden and returns the array as a string. 
 Note: The array is givven in order of the smallest to largest axes.
 
 
 
-setRotationXAxis(boolean bool)
-setRotationYAxis(boolean bool)
-setRotationZAxis(boolean bool)
+public non-static functions:
+    setRotationXAxis(boolean bool)  default: false
+    setRotationYAxis(boolean bool)  default: true
+    setRotationZAxis(boolean bool)  default: false
+        Sets rotation around axis.
+        Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.
 
-rotatesAroundXAxis()
-rotatesAroundYAxis()
-rotatesAroundZAxis()
+    rotatesAroundXAxis()
+    rotatesAroundYAxis()
+    rotatesAroundZAxis()
+        Returns boolean
 
-findStructure(World world, int x, int y, int z)
-findStructures(World world, int x, int y, int z)
+    findStructure(World world, int x, int y, int z)
+        Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.
+        Returns new Structure or null if none were found.
 
-validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
+    findStructures(World world, int x, int y, int z)
+        Will try to find all structures overlapping specified coordinate the world.
+        Returns an ArrayList<Stucture> that's empty if none are found.
 
-sizeX()
-sizeY()
-sizeZ()
+    validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)
+        Used by structure to validate if it's still valid.
 
-toString()
+    sizeX()
+    sizeY()
+    sizeZ()
+        Returns the size of the three dimensional array
 
-debugStructureArray()
+    toString()
+        Returns the array in string format, with the axis with the lowest size first.
 
+    debugStructureArray()
+        Prints the structure array in the console
 
-
-
-Special Characters / Values:
-    ' ' or null = anything. doesn't matter what block it is.
+Special Characters:
+    ' ' = anything. doesn't matter what block it is.
         true
     '+' = full block
         block.isOpaqueCube()
@@ -57,11 +76,13 @@ Special Characters / Values:
     '#' = opaque light based
         block.getLightOpacity(world, x,y,z) == 255
     
+
 Modifier:
     '@' = OreDictionary
         If inputted as a character, next string will be assumed to be an ore-name.
         If used in string, the ore-name has to be encased in @
             
+
 Mapping:
     '^' = map object to next string
         If inputted as a character, the next string will be used as key to map the object after that.
@@ -75,6 +96,7 @@ Mapping:
         Example:
             new MultiBlock( "ccc", 'c', Blocks.cobblestone )
             A line of three cobblestone.
+
     
 Structure Modifier:
     '/' = next z column.
@@ -82,35 +104,38 @@ Structure Modifier:
     '\' = next level up.
         y++  x=0  z=0
 
+
 Duplicators:
     '<' = level 0
     '>' = level 1
-    '-' = level 2
+    '*' = level 2
 
     Duplicators take an operand before it, and an integer operand after it.
-    It duplicates the value before it into the amount that the integer specifies
+    The first operand is duplicated into the amount specified by the second operand.
     Note:
         This operand will be ignored if no integer is found, or integer is lower than 1.
+
 
 Operators, in order of precedence:
     '(' and ')' = Brackets
         Can be used inside of a string, and outside as characters. 
         Everything between two brackets will be put into an ArrayList.
-    '!' = not       takes one operand
+    '!' = not       takes one operand after it.
         Inverts the next check
-    '&' = and       takes two operands
+    '&' = and       takes two operands, one before and one after.
         Both cases have to be true
-    '|' = or        takes two operands
+    '|' = or        takes two operands, one before and one after.
         One of the cases have to be true.
-        If it's mapped to something, everything it's mapped to has to be the same.
-        A, '|', B to character 'l', then everywhere l is used in place of (A, '|', B) has to yield the same result;
-        meaning, if you get A,A,A,B it's invalid, but if it's only A or only B, then it's valid.
+        If operator is duplicated or mapped to a key, everywhere that same operator is used, it has to give have the same case value.
+        Example:
+            new MultiBlock("xxx", 'x', Blocks.cobblestone, '|', Blocks.sand)
+            A line of three cobble, or three sand. Can't be intermixed.
 
 Order of precedence:
     Duplicator, level 0
     Extraction of InputLists
     Brackets
-    Sort any found ArrayLists in this order of precedence, just without Structure Modifiers
+    Convert and go through ArrayLists in this order of precedence, just without Structure Modifiers
     Modifiers
     Special values
     Duplicator, level 1
@@ -118,3 +143,4 @@ Order of precedence:
     Duplicator, level 2
     Mapping
     Structure Modifiers
+
