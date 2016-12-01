@@ -1,10 +1,10 @@
-## Shadow-Core
+# Shadow-Core
 My own little core mod.
 
 Most notably this mod has utilities for checking for multiblocks in the world.
 
 
-#MultiBlock:
+## MultiBlock:
 
 A MultiBlock object will use its specified parameters as a basis for building a three dimensional array, representing the structure in world.  
 Parameters can be of any object, but will either be converted or disregarded if invalid.
@@ -25,7 +25,7 @@ To make debugging simpler, the toString function was overridden and returns the 
 Note: The array is givven in order of the smallest to largest axes.  
 
 
-#public non-static functions:
+## public non-static functions:
 
 setRotationXAxis(boolean bool)  default: false  
 setRotationYAxis(boolean bool)  default: true  
