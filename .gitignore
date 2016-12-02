@@ -1,0 +1,48 @@
+Thumbs.db
+
+## Minecraft
+/minecraft
+
+## gradle
+/.gradle
+/gradle
+/build
+/gradlew*
+
+## Forge
+/CREDITS-fml.txt
+/LICENSE-fml.txt
+/MinecraftForge-Credits.txt
+/MinecraftForge-License.txt
+/README.txt
+/forge*changelog.txt
+
+## Example mod
+/src/main/java/com/example
+
+## ForgeGradle
+/run
+
+## eclipse
+/eclipse
+/.settings
+/.metadata
+/.classpath
+/.project
+/bin
+
+## intellij
+/out
+/.idea
+/atlassian-ide-plugin.xml
+/*.iml
+/*.ipr
+/*.iws
+
+## Private Stuffs
+/private.properties
+/*.cmd
+
+## Jars
+*.jar
+!/gradle/wrapper/gradle-wrapper.jar
