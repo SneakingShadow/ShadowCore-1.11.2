@@ -97,33 +97,19 @@ debugStructureArray()
 
 ### Special Characters:  
   * ' ' = anything. doesn\'t matter what block it is.  
-    ``` 
-    true 
-    ```  
+    `true`  
   * '+' = full block  
-    ```
-    block.isOpaqueCube()  
-    ```
+    `block.isOpaqueCube()`
   * '_' = air block  
-    ```
-    block.isAir(world, x,y,z)  
-    ```
+    `block.isAir(world, x,y,z)`
   * '-' = replaceable block  
-    ```
-    block.isReplaceable(world,x,y,z)  
-    ```
+    `block.isReplaceable(world,x,y,z)`
   * '~' = liquid  
-    ```
-    block.getMaterial().isLiquid()  
-    ```
+    `block.getMaterial().isLiquid()`
   * '*' = opaque material  
-    ```
-    block.getMaterial().isOpaque()  
-    ```
+    `block.getMaterial().isOpaque()`
   * '#' = opaque light based  
-    ```
-    block.getLightOpacity(world, x,y,z) == 255  
-    ```  
+    `block.getLightOpacity(world, x,y,z) == 255`  
 ---
 
 ### Modifier:  
@@ -131,9 +117,7 @@ debugStructureArray()
     * If inputted as a character, next string will be assumed to be an ore-name.    
     * If used in string, the ore-name has to be encased in @  
     * Example:  
-      ``` 
-      new MultiBlock('@', "cobblestone", "@cobblestone@@cobblestone@")  
-      ```
+      `new MultiBlock('@', "cobblestone", "@cobblestone@@cobblestone@")`
       * A line of three oredictionary cobblestone.
    
 ---
@@ -143,17 +127,13 @@ debugStructureArray()
     * If inputted as a character, the next string will be used as key to map the object after that.  
     * The mapped object can be used by encasing the key in ^. 
     * Example:  
-      ```  
-      new MultiBlock( '^', "cobble", Blocks.cobblestone, "^cobble^^cobble^^cobble^" )  
-      ```  
+      `new MultiBlock( '^', "cobble", Blocks.cobblestone, "^cobble^^cobble^^cobble^" )`  
       * A line of three cobblestone.  
   * character = map object to character  
     * If a non special character is inputted, the next object will be mapped to that character.  
     * The mapped object can be used by using the key in a string, that does not serve another purpose.  
     * Example:  
-      ``` 
-      new MultiBlock( "ccc", 'c', Blocks.cobblestone )  
-      ```  
+      `new MultiBlock( "ccc", 'c', Blocks.cobblestone )`  
       * A line of three cobblestone.  
 
 ---
@@ -193,9 +173,7 @@ debugStructureArray()
     * One of the cases have to be true.  
     * If operator is duplicated or mapped to a key, everywhere that same operator is used, it has to give have the same case value.  
     * Example:  
-      ``` 
-      new MultiBlock("xxx", 'x', Blocks.cobblestone, '|', Blocks.sand)  
-      ```  
+      `new MultiBlock("xxx", 'x', Blocks.cobblestone, '|', Blocks.sand)`  
       * A line of three cobble, or three sand. Can't be intermixed.  
 
 ---
