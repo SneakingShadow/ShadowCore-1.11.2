@@ -33,89 +33,105 @@ setRotationZAxis(boolean bool)  default: false
   * Sets rotation around axis.  
   * Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.  
 
+---
+
 rotatesAroundXAxis()  
 rotatesAroundYAxis()  
 rotatesAroundZAxis()  
   * Returns boolean  
 
+---
+
 findStructure(World world, int x, int y, int z)  
   * Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.  
   * Returns a new Structure or null if none were found.  
+
+---
 
 findStructures(World world, int x, int y, int z)  
   * Will try to find all structures overlapping specified coordinate the world.  
   * Returns an ArrayList\<Stucture\> that's empty if none are found.  
 
+---
+
 validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)  
   * Used by Structure to validate if it's still valid.  
+
+---
 
 sizeX()  
 sizeY()  
 sizeZ()  
   * Returns the size of the three dimensional array.  
 
+---
+
 toString()  
   * Returns the array in string format, with the axis with the lowest size first.  
 
+---
+
 debugStructureArray()  
   * Prints the structure array in the console.  
+
+---
 
 
 ## Parameters:  
 
 ### Special Characters:  
-  * \' \' = anything. doesn\'t matter what block it is.  
+  * ' ' = anything. doesn\'t matter what block it is.  
     * true  
-  * \'\+\' = full block  
+  * '+' = full block  
     * block.isOpaqueCube()  
-  * \'\_\' = air block  
+  * '_' = air block  
     * block.isAir(world, x,y,z)  
-  * \'\-\' = replaceable block  
+  * '-' = replaceable block  
     * block.isReplaceable(world,x,y,z)  
-  * \'~\' = liquid  
+  * '~' = liquid  
     * block.getMaterial().isLiquid()  
-  * \'\*\' = opaque material  
+  * '*' = opaque material  
     * block.getMaterial().isOpaque()  
-  * \'\#\' = opaque light based  
+  * '#' = opaque light based  
     * block.getLightOpacity(world, x,y,z) == 255  
     
 ---
 
 ### Modifier:  
-  * \'@\' = OreDictionary  
+  * '@' = OreDictionary  
     * If inputted as a character, next string will be assumed to be an ore-name.    
     * If used in string, the ore-name has to be encased in @  
    
 ---
 
 ### Mapping:  
-  * \'^\' = map object to next string  
+  * '^' = map object to next string  
     * If inputted as a character, the next string will be used as key to map the object after that.  
     * The mapped object can be used by encasing the key in ^. 
     * Example:  
-      * ''' new MultiBlock( \'^\', "cobble", Blocks.cobblestone, "^cobble^^cobble^^cobble^" ) '''  
+      * ''' new MultiBlock( '^', "cobble", Blocks.cobblestone, "^cobble^^cobble^^cobble^" ) '''  
       * A line of three cobblestone.  
   * character = map object to character  
     * If a non special character is inputted, the next object will be mapped to that character.  
     * The mapped object can be used by using the key in a string, that does not serve another purpose.  
     * Example:  
-      * ''' new MultiBlock( "ccc", \'c\', Blocks.cobblestone ) '''  
+      * ''' new MultiBlock( "ccc", 'c', Blocks.cobblestone ) '''  
       * A line of three cobblestone.  
 
 ---
     
 ### Structure Modifier:  
-  * \'/\' = next z column.  
+  * '/' = next z column.  
     * z++ ; x=0  
-  * \'\\\' = next level up.  
+  * '\' = next level up.  
     * y++ ; x=0 ; z=0  
 
 ---
 
 ### Duplicators:  
-  * \'\<\' = level 0,  
-  * \'\>\' = level 1,  
-  * \'\*\' = level 2,  
+  * '<' = level 0,  
+  * '>' = level 1,  
+  * '*' = level 2,  
   *          
   * Duplicators take an operand before it, and an integer operand after it.  
   * The first operand is duplicated into the amount specified by the second operand.  
@@ -125,21 +141,21 @@ debugStructureArray()
 ---
 
 ### Operators, in order of precedence:  
-  * \'(\' and \')\' = Brackets  
+  * '(' and ')' = Brackets  
     * Can be used inside of a string, and outside as characters.  
     * Everything between two brackets will be put into an ArrayList.  
-  * \'\!\' = not       
+  * '!' = not       
     * takes one operand after it.  
     * Inverts the next check  
-  * \'&\' = and       
+  * '&' = and       
     * takes two operands, one before and one after.  
     * Both cases have to be true  
-  * \'|\' = or        
+  * '|' = or        
     * takes two operands, one before and one after.  
     * One of the cases have to be true.  
     * If operator is duplicated or mapped to a key, everywhere that same operator is used, it has to give have the same case value.  
     * Example:  
-      * ''' new MultiBlock("xxx", \'x\', Blocks.cobblestone, \'|\', Blocks.sand) '''  
+      * ''' new MultiBlock("xxx", 'x', Blocks.cobblestone, '|', Blocks.sand) '''  
       * A line of three cobble, or three sand. Can't be intermixed.  
 
 ---
