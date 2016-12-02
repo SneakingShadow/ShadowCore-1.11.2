@@ -149,12 +149,10 @@ debugStructureArray()
 ### Duplicators:  
   * '<' = level 0,  
   * '>' = level 1,  
-  * '*' = level 2,  
-  *          
-  * Duplicators take an operand before it, and an integer operand after it.  
-  * The first operand is duplicated into the amount specified by the second operand.  
-  * Note:  
-    * This operand will be ignored if no integer is found, or integer is lower than 1.  
+  * '*' = level 2,
+    * Duplicators take an operand before it, and an integer operand after it.  
+    * The first operand is duplicated into the amount specified by the second operand.  
+    * Note: This operand will be ignored if no integer is found, or integer is lower than 1.  
 
 ---
 
