@@ -27,51 +27,67 @@ Note: The array is givven in order of the smallest to largest axes.
 
 ## public non-static functions:
 
+```
 setRotationXAxis(boolean bool)  default: false  
 setRotationYAxis(boolean bool)  default: true  
 setRotationZAxis(boolean bool)  default: false  
+```
   * Sets rotation around axis.  
   * Rotation around axis is against/with the clock, when looking at the structure dead on from specified axis.  
 
 ---
 
+```
 rotatesAroundXAxis()  
 rotatesAroundYAxis()  
 rotatesAroundZAxis()  
+```
   * Returns boolean  
 
 ---
 
+```
 findStructure(World world, int x, int y, int z)  
+```
   * Will try to find one structure overlapping specified coordinate in the world, and stops when it has found one.  
   * Returns a new Structure or null if none were found.  
 
 ---
 
+```
 findStructures(World world, int x, int y, int z)  
+```
   * Will try to find all structures overlapping specified coordinate the world.  
   * Returns an ArrayList\<Stucture\> that's empty if none are found.  
 
 ---
 
+```
 validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ)  
+```
   * Used by Structure to validate if it's still valid.  
 
 ---
 
+```
 sizeX()  
 sizeY()  
 sizeZ()  
+```
   * Returns the size of the three dimensional array.  
 
 ---
 
+```
 toString()  
+```
   * Returns the array in string format, with the axis with the lowest size first.  
 
 ---
 
+```
 debugStructureArray()  
+```
   * Prints the structure array in the console.  
 
 ---
