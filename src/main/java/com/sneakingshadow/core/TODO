@@ -9,3 +9,10 @@
 TODO:
 
 Fix up in rotation and stair structure block
+
+Add ItemShadow with custom renderer with check for transparancy. 
+Have that check in ItemShadow, that returns integer.
+Add Tool utility for ItemShadow. 
+
+Add ItemSpadeShadow, ItemPickaxeShadow, ItemAxeShadow, etc.   
+Make sure looking direction thing works
