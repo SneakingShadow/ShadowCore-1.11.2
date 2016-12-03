@@ -1,0 +1,21 @@
+[
+{
+  "modid": "sneakingshadow_core",
+  "name": "Shadow's Core",
+  "description": "Shadow's core mod.",
+  "version": "",
+  "mcversion": "",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [
+    "Sneaking Shadow"
+  ],
+  "credits": "",
+  "logoFile": "assets/sneakingshadow_core/logo.png",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
