@@ -122,8 +122,8 @@ public class Structure {
     @Override
     public String toString() {
         return super.toString() + "\n"
-                + "MultiBlock: " + Integer.toHexString(multiBlock.hashCode()) + "\n"
-                + "(" + startCorner.xCoord + "," + startCorner.yCoord + "," + startCorner.zCoord + ")" + "\n"
-                + "(" + endCorner.xCoord + "," + endCorner.yCoord + "," + endCorner.zCoord + ")";
+                + "MultiBlock: @" + Integer.toHexString(multiBlock.hashCode()) + "\n"
+                + "Start corner: (" + startCorner.xCoord + "," + startCorner.yCoord + "," + startCorner.zCoord + ")" + "\n"
+                + "End corner: (" + endCorner.xCoord + "," + endCorner.yCoord + "," + endCorner.zCoord + ")";
     };
 }

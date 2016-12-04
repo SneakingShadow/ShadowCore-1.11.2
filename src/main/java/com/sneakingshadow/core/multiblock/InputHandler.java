@@ -304,21 +304,22 @@ class InputHandler {
         for (int i = 0; i < objects.size(); i++) {
             Object object = objects.get(i);
 
-            if (object instanceof Character && MultiBlockInit.ORE_DICTIONARY.equals(object) && objects.size() > i+1) {
-                if (objects.get(++i) instanceof String)
+            if (object instanceof Character && MultiBlockInit.ORE_DICTIONARY.equals(object) && i+1 < objects.size()) {
+                i++;
+                if (objects.get(i) instanceof String)
                     arrayList.add(new SBlockOreDictionary((String) objects.get(i)));
                 else
                     arrayList.add(objects.get(i));
             } else if (object instanceof String) {
-                String string_object = (String) object;
+                ArrayList<String> stringList = StringUtil.splitString((String)object, MultiBlockInit.ORE_DICTIONARY,true);
 
-                ArrayList<String> stringList = StringUtil.splitString(string_object, MultiBlockInit.ORE_DICTIONARY,true);
-
-                for (String string : stringList) if (MultiBlockInit.ORE_DICTIONARY.equals(string.charAt(0))) {
-                    if (string.length() > 1)
-                        arrayList.add(new SBlockOreDictionary(string.substring(1, string.length())));
-                    else
-                        arrayList.add(string_object);}
+                for (String string : stringList) {
+                    if (MultiBlockInit.ORE_DICTIONARY.equals(string.charAt(0))) {
+                        if (string.length() > 1)
+                            arrayList.add(new SBlockOreDictionary(string.substring(1, string.length())));
+                    } else if (!string.isEmpty())
+                        arrayList.add(string);
+                }
             } else
                 arrayList.add(object);
         }
