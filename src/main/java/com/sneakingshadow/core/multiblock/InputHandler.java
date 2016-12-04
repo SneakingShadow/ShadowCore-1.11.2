@@ -9,7 +9,6 @@ import com.sneakingshadow.core.multiblock.structureblock.operator.Operator;
 import com.sneakingshadow.core.multiblock.structureblock.special.SBlockNull;
 import com.sneakingshadow.core.util.ArrayListHelper;
 import com.sneakingshadow.core.util.StringUtil;
-import com.sun.istack.internal.NotNull;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -23,7 +22,6 @@ import static com.sneakingshadow.core.multiblock.MultiBlockInit.NEXT_LINE;
 
 class InputHandler {
 
-    @NotNull
     static StructureArray getStructureArray(Object[] objects) {
         HashMap<Character, StructureBlock> charMap = new HashMap<Character, StructureBlock>();
         HashMap<String, StructureBlock> stringMap = new HashMap<String, StructureBlock>();
