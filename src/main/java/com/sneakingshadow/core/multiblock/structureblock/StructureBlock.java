@@ -1,7 +1,6 @@
 package com.sneakingshadow.core.multiblock.structureblock;
 
 import com.sneakingshadow.core.multiblock.structureblock.special.SBlockFalse;
-import com.sun.istack.internal.NotNull;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -58,7 +57,6 @@ public abstract class StructureBlock {
      *     All characters at this point is characters that are either mapped to something, not mapped, NEXT_LINE, or NEXT_LEVEL
      *     Recommended to use mapObjectNull(object, charMap, stringMap) for simplicity.
      * */
-    @NotNull
     public StructureBlock map(HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap) {
         return this;
     }
@@ -92,7 +90,6 @@ public abstract class StructureBlock {
      *
      * @return Structure Block
      * */
-    @NotNull
     public StructureBlock mapObject(Object object, HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap) {
         StructureBlock structureBlock = mapObjectNull(object, charMap, stringMap);
 

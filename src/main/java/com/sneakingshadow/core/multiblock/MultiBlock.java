@@ -1,6 +1,5 @@
 package com.sneakingshadow.core.multiblock;
 
-import com.sun.istack.internal.NotNull;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -71,7 +70,6 @@ public class MultiBlock {
     /**
      * Returns an empty ArrayList if no structures are found.
      * */
-    @NotNull
     private ArrayList<Structure> findStructures(World world, int x, int y, int z, boolean checkAllStructures) {
         ArrayList<Structure> structureList = new ArrayList<Structure>();
 

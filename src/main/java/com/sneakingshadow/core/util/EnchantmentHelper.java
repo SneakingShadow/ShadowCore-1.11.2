@@ -1,4 +1,4 @@
-package com.sneakingshadow.bvks.util;
+package com.sneakingshadow.core.util;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -44,10 +44,8 @@ public class EnchantmentHelper {
                 tagCompound.setShort("lvl", (short)level);
                 tagList.appendTag( tagCompound );
             }
-            LogHelper.info("not null: "+tagList);
         }else{
             itemStack.addEnchantment(enchantment, level);
-            LogHelper.info("null: "+ tagList);
         }
     }
 
@@ -67,16 +65,8 @@ public class EnchantmentHelper {
     public static void remove(Enchantment enchantment, NBTTagList tagList, NBTTagCompound stackTagCompound){ remove(enchantment.effectId, tagList, stackTagCompound); }
 
     private static void checkEnchanted(NBTTagList tagList, NBTTagCompound stackTagCompound){
-        LogHelper.info(tagList);
-        LogHelper.info(tagList.tagCount());
-        LogHelper.info(stackTagCompound);
-        LogHelper.info(stackTagCompound.getCompoundTag("ench"));
         //stackTagCompound.setTag("ench", null)
         if(tagList.tagCount() == 0) stackTagCompound.removeTag("ench");
-        LogHelper.info(tagList);
-        LogHelper.info(tagList.tagCount());
-        LogHelper.info(tagList);
-        LogHelper.info(tagList.tagCount());
     }
 
     public static void removeAll(ItemStack itemStack){ itemStack.stackTagCompound.removeTag("ench"); }
