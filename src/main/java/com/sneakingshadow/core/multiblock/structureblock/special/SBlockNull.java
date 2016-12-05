@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.NULL;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NULL;
 
 /**
  * Created by SneakingShadow on 23.11.2016.

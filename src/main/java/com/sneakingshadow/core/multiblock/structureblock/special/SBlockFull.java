@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.FULL_BLOCK;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.FULL_BLOCK;
 
 public class SBlockFull extends StructureBlock {
 

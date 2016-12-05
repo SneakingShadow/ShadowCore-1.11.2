@@ -5,7 +5,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockUtil.rotate;
+import static com.sneakingshadow.core.util.MultiBlockUtil.rotate;
 
 public class MultiBlock {
 
@@ -97,36 +97,45 @@ public class MultiBlock {
                 * */
 
                 //Top side, and if rotatesAroundX or rotatesAroundZ then the bottom side as well
-                for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2)   for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
-                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, 0);
-                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
-                        structureList.add(structure);
-                        if (!checkAllStructures)
-                            return structureList;
+                for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2) {
+                    for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
+                        Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, rotationY, 0, 0);
+                        if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                            structureList.add(structure);
+                            if (!checkAllStructures)
+                                return structureList;
+                        }
                     }
                 }
 
                 //Two of the four sides that are not top nor bottom, that are inaccessible by rotationZ
-                if (rotatesAroundX)   for (int rotationX = 1; rotationX < 4; rotationX += 2)   for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
-                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
-                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
-                        structureList.add(structure);
-                        if (!checkAllStructures)
-                            return structureList;
+                if (rotatesAroundX)
+                    for (int rotationX = 1; rotationX < 4; rotationX += 2) {
+                        for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
+                            Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 1);
+                            if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                                structureList.add(structure);
+                                if (!checkAllStructures)
+                                    return structureList;
+                            }
+                        }
                     }
-                }
 
                 //Two of the four sides that are not top nor bottom, that are inaccessible by rotationX
-                if (rotatesAroundZ)   for (int rotationZ = 1; rotationZ < 4; rotationZ += 2)   for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
-                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
-                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
-                        structureList.add(structure);
-                        if (!checkAllStructures)
-                            return structureList;
+                if (rotatesAroundZ)
+                    for (int rotationZ = 1; rotationZ < 4; rotationZ += 2) {
+                        for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
+                            Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 2);
+                            if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                                structureList.add(structure);
+                                if (!checkAllStructures)
+                                    return structureList;
+                            }
+                        }
                     }
-                }
             }
 
+            structureList = excludeDuplicateStructures(structureList);
 
             for (Structure structure : structureList) {
                 structures.add(structure);
@@ -140,34 +149,27 @@ public class MultiBlock {
     /**
      * validates the side accessed by rotationX and rotationZ, in any rotationY.
      * */
-    private Structure validate(World world, int x, int y, int z, int ix, int iy, int iz, int rotationX, int rotationY, int rotationZ) {
-        Vec3 arrayPosition = rotate(Vec3.createVectorHelper(ix, iy, iz), rotationX, rotationY, rotationZ);
+    private Structure validate(World world, int x, int y, int z, int ix, int iy, int iz, int rotationX, int rotationY, int rotationZ, int flag) {
+        Vec3 arrayPosition = rotate(Vec3.createVectorHelper(ix, iy, iz), rotationX, rotationY, rotationZ, flag);
         Vec3 startCorner = arrayPosition.subtract(Vec3.createVectorHelper(x, y, z));
 
-        if (validate(world, startCorner, rotationX, rotationY, rotationZ)) {
-            return new Structure(this, world, startCorner, rotationX, rotationY, rotationZ);
+        if (validate(world, startCorner, rotationX, rotationY, rotationZ, flag)) {
+            return new Structure(this, world, startCorner, rotationX, rotationY, rotationZ, flag);
         }
 
         return null;
     }
 
     /**
-     * Validates a structure based on:
-     * @param world
-     * @param cornerPosition the location of the corner of the structure.
-     * @param rotationX the rotation of the structure around the x-axis.
-     * @param rotationY the rotation of the structure around the y-axis.
-     * @param rotationZ the rotation of the structure around the z-axis.
-     *
-     * Rotations are measured in quarter-full rotations, meaning from 0 to 3.
+     * Validates there's a structure in world, with specified corner and rotation
      * */
-    public boolean validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ) {
+    public boolean validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ, int flag) {
         for (int x = 0; x < structureArray.sizeX(); x++) {
             for (int y = 0; y < structureArray.sizeY(); y++) {
                 for (int z = 0; z < structureArray.sizeZ(); z++) {
                     Vec3 currentArrayPosition = Vec3.createVectorHelper(x,y,z);
                     Vec3 currentWorldPosition = rotate(
-                            Vec3.createVectorHelper(x,y,z), rotationX, rotationY, rotationZ //can't rotate currentArrayPosition, and therefore have to make a new one
+                            Vec3.createVectorHelper(x,y,z), rotationX, rotationY, rotationZ, flag //can't rotate currentArrayPosition, and therefore have to make a new one
                     ).addVector(cornerPosition.xCoord, cornerPosition.yCoord, cornerPosition.zCoord);
 
                     if (!structureArray.blockIsValid(world, currentWorldPosition, currentArrayPosition, rotationX, rotationY, rotationZ)) {

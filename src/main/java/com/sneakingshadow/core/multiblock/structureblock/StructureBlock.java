@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.STRING_KEY;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.STRING_KEY;
 
 /**
  * Created by SneakingShadow on 22.11.2016.

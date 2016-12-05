@@ -20,6 +20,7 @@ public class Core
     public void preInit(FMLPreInitializationEvent event)
     {
         MultiBlockInit.init();
+        System.out.println("Shadow-Core multiblock initialized");
     }
 
 }

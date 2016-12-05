@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.NOT;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NOT;
 
 /**
  * Created by SneakingShadow on 23.11.2016.

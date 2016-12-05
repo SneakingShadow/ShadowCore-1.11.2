@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockUtil.rotate;
+import static com.sneakingshadow.core.util.MultiBlockUtil.rotate;
 
 /**
  * Created by SneakingShadow on 23.11.2016.
@@ -18,29 +18,24 @@ public class Structure {
     private int rotationX;
     private int rotationY;
     private int rotationZ;
+    private int flag;
 
     /**
      * Represents the structure in world.
-     *
-     * @param world
-     * @param startCorner coordinate of the start corner of the structure.
-     * @param rotationX rotation of the structure around the x-axis.
-     * @param rotationY rotation of the structure around the y-axis.
-     * @param rotationZ rotation of the structure around the z-axis.
-     *
      * */
-    public Structure(MultiBlock multiBlock, World world, Vec3 startCorner, int rotationX, int rotationY, int rotationZ) {
+    public Structure(MultiBlock multiBlock, World world, Vec3 startCorner, int rotationX, int rotationY, int rotationZ, int flag) {
         this.multiBlock = multiBlock;
         this.world = world;
         this.startCorner = startCorner;
         this.rotationX = rotationX;
         this.rotationY = rotationY;
         this.rotationZ = rotationZ;
+        this.flag = flag;
         setEndCorner();
     }
 
     public boolean stillValid() {
-        return multiBlock.validate(world, startCorner, rotationX, rotationY, rotationZ);
+        return multiBlock.validate(world, startCorner, rotationX, rotationY, rotationZ, flag);
     }
 
     public MultiBlock getMultiBlock() {
@@ -66,6 +61,7 @@ public class Structure {
      *     rotationX
      *     rotationY
      *     rotationZ
+     *     flag
      * */
     public NBTTagCompound writeToNBT(NBTTagCompound nbtTagCompound) {
         nbtTagCompound.setInteger("xCoord", (int) startCorner.xCoord);
@@ -74,6 +70,7 @@ public class Structure {
         nbtTagCompound.setInteger("rotationX", rotationX);
         nbtTagCompound.setInteger("rotationY", rotationY);
         nbtTagCompound.setInteger("rotationZ", rotationZ);
+        nbtTagCompound.setInteger("flag", flag);
         return nbtTagCompound;
     }
 
@@ -89,6 +86,7 @@ public class Structure {
         rotationX = nbtTagCompound.getInteger("rotationX");
         rotationY = nbtTagCompound.getInteger("rotationY");
         rotationZ = nbtTagCompound.getInteger("rotationZ");
+        flag = nbtTagCompound.getInteger("flag");
         setEndCorner();
 
         return this;
@@ -115,7 +113,7 @@ public class Structure {
     }
 
     private void setEndCorner() {
-        Vec3 arraySize = rotate(Vec3.createVectorHelper(multiBlock.sizeX()-1, multiBlock.sizeY()-1, multiBlock.sizeZ()-1), rotationX,rotationY,rotationZ);
+        Vec3 arraySize = rotate(Vec3.createVectorHelper(multiBlock.sizeX()-1, multiBlock.sizeY()-1, multiBlock.sizeZ()-1), rotationX,rotationY,rotationZ, flag);
         endCorner = startCorner.addVector(arraySize.xCoord,arraySize.yCoord,arraySize.zCoord);
     }
 

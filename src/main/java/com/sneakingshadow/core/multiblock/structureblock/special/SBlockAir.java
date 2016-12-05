@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.AIR;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.AIR;
 
 public class SBlockAir extends StructureBlock {
 

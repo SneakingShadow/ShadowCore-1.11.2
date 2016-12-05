@@ -17,8 +17,8 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.NEXT_LEVEL;
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.NEXT_LINE;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NEXT_LEVEL;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NEXT_LINE;
 
 class InputHandler {
 
@@ -65,7 +65,7 @@ class InputHandler {
         ArrayList<Object> arrayList = ArrayListHelper.fromArray(objects);
 
         if (booleans.get(DUPLICATORS[0]))
-            arrayList = duplicator(arrayList, MultiBlockInit.getDuplicatorInitializer(0));
+            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(0));
         if (booleans.get(INPUT_LIST))
             arrayList = inputList(arrayList, new ArrayList<Object>());
         if (booleans.get(BRACKETS))
@@ -78,11 +78,11 @@ class InputHandler {
             arrayList = oreDictionary(arrayList);
         arrayList = specialValues(arrayList);
         if (booleans.get(DUPLICATORS[1]))
-            arrayList = duplicator(arrayList, MultiBlockInit.getDuplicatorInitializer(2));
+            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(2));
         if (booleans.get(OPERATOR))
-            arrayList = operator(arrayList, MultiBlockInit.getOperatorList());
+            arrayList = operator(arrayList, MultiBlockRegistry.getOperatorList());
         if (booleans.get(DUPLICATORS[2]))
-            arrayList = duplicator(arrayList, MultiBlockInit.getDuplicatorInitializer(3));
+            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(3));
 
         //Allows arrayListSort to sort its content in this manner without conflicts.
         if (doMapping) {
@@ -157,19 +157,19 @@ class InputHandler {
                         && booleans.get(DUPLICATORS[2])
                         && booleans.get(DUPLICATORS[3])))
             for (int i = 0; i < DUPLICATORS.length; i++)
-                if (MultiBlockInit.getDuplicatorInitializer(i).isSpecialCharacter(object))
+                if (MultiBlockRegistry.getDuplicatorInitializer(i).isSpecialCharacter(object))
                     booleans.set(DUPLICATORS[i], true);
 
-        if (!booleans.get(ORE_DICTIONARY) && MultiBlockInit.ORE_DICTIONARY.equals(object))
+        if (!booleans.get(ORE_DICTIONARY) && MultiBlockRegistry.ORE_DICTIONARY.equals(object))
             booleans.set(ORE_DICTIONARY, true);
 
         else if (!booleans.get(BRACKETS) &&
-                (MultiBlockInit.BRACKET_START.equals(object)
-                || MultiBlockInit.BRACKET_END.equals(object))) {
+                (MultiBlockRegistry.BRACKET_START.equals(object)
+                || MultiBlockRegistry.BRACKET_END.equals(object))) {
             booleans.set(BRACKETS, true);
             booleans.set(ARRAY_LIST,true);
         }
-        else if (!booleans.get(OPERATOR) && MultiBlockInit.operatorUsed((Character)object))
+        else if (!booleans.get(OPERATOR) && MultiBlockRegistry.operatorUsed((Character)object))
             booleans.set(OPERATOR, true);
 
         return booleans;
@@ -182,7 +182,7 @@ class InputHandler {
         for (Object object : inputList)
             if (object instanceof InputList)
                 inputList(
-                        duplicator(((ArrayList<Object>) object), MultiBlockInit.getDuplicatorInitializer(0)),
+                        duplicator(((ArrayList<Object>) object), MultiBlockRegistry.getDuplicatorInitializer(0)),
                         arrayList
                 );
             else
@@ -204,11 +204,11 @@ class InputHandler {
             if (object instanceof Character) {
                 boolean bool = true;
 
-                if (MultiBlockInit.BRACKET_START.equals(object)) {
+                if (MultiBlockRegistry.BRACKET_START.equals(object)) {
                     bracketsNotClosed++;
                     bool = false;
                 }
-                else if (MultiBlockInit.BRACKET_END.equals(object))
+                else if (MultiBlockRegistry.BRACKET_END.equals(object))
                 {
                     //Subtract one, unless lower, then set to 0.
                     bracketsNotClosed = bracketsNotClosed > 0 ? bracketsNotClosed-1 : 0;
@@ -229,7 +229,7 @@ class InputHandler {
             }
             else if (object instanceof String) {
                 ArrayList<String> stringArray = StringUtil.splitString(
-                        (String) object, new Character[] {MultiBlockInit.BRACKET_START, MultiBlockInit.BRACKET_END}
+                        (String) object, new Character[] {MultiBlockRegistry.BRACKET_START, MultiBlockRegistry.BRACKET_END}
                 );
 
                 for (String string : stringArray) {
@@ -237,11 +237,11 @@ class InputHandler {
 
                     boolean bool = false;
 
-                    if (MultiBlockInit.BRACKET_START.equals(character)) {
+                    if (MultiBlockRegistry.BRACKET_START.equals(character)) {
                         bracketsNotClosed++;
                         bool = true;
                     }
-                    else if (MultiBlockInit.BRACKET_END.equals(character))
+                    else if (MultiBlockRegistry.BRACKET_END.equals(character))
                     {
                         //Subtract one, unless lower, then set to 0.
                         bracketsNotClosed = bracketsNotClosed > 0 ? bracketsNotClosed-1 : 0;
@@ -304,17 +304,17 @@ class InputHandler {
         for (int i = 0; i < objects.size(); i++) {
             Object object = objects.get(i);
 
-            if (object instanceof Character && MultiBlockInit.ORE_DICTIONARY.equals(object) && i+1 < objects.size()) {
+            if (object instanceof Character && MultiBlockRegistry.ORE_DICTIONARY.equals(object) && i+1 < objects.size()) {
                 i++;
                 if (objects.get(i) instanceof String)
                     arrayList.add(new SBlockOreDictionary((String) objects.get(i)));
                 else
                     arrayList.add(objects.get(i));
             } else if (object instanceof String) {
-                ArrayList<String> stringList = StringUtil.splitString((String)object, MultiBlockInit.ORE_DICTIONARY,true);
+                ArrayList<String> stringList = StringUtil.splitString((String)object, MultiBlockRegistry.ORE_DICTIONARY,true);
 
                 for (String string : stringList) {
-                    if (MultiBlockInit.ORE_DICTIONARY.equals(string.charAt(0))) {
+                    if (MultiBlockRegistry.ORE_DICTIONARY.equals(string.charAt(0))) {
                         if (string.length() > 1)
                             arrayList.add(new SBlockOreDictionary(string.substring(1, string.length())));
                     } else if (!string.isEmpty())
@@ -360,10 +360,10 @@ class InputHandler {
                 String string = "";
 
                 for (int i = 0; i < string_object.length(); i++) {
-                    if (MultiBlockInit.specialCharacterUsed(string_object.charAt(i))) {
+                    if (MultiBlockRegistry.specialCharacterUsed(string_object.charAt(i))) {
                         arrayList.add(string);
                         string = "";
-                        arrayList.add(MultiBlockInit.getSpecialCharacter(string_object.charAt(i)));
+                        arrayList.add(MultiBlockRegistry.getSpecialCharacter(string_object.charAt(i)));
                     } else
                         string += string_object.charAt(i);
                 }
@@ -426,9 +426,9 @@ class InputHandler {
             if (object instanceof Character) {
                 Character character = (Character)object;
 
-                if (MultiBlockInit.STRING_KEY.equals(character)) {
+                if (MultiBlockRegistry.STRING_KEY.equals(character)) {
                     if (inputList.size() > i+2 && inputList.get(i+1) instanceof String && inputList.get(i+2) instanceof StructureBlock)
-                        stringMap.put(MultiBlockInit.STRING_KEY + (String)inputList.get(++i), (StructureBlock) inputList.get(++i));
+                        stringMap.put(MultiBlockRegistry.STRING_KEY + (String)inputList.get(++i), (StructureBlock) inputList.get(++i));
 
                 } else if (inputList.size() > i+1 && inputList.get(i+1) instanceof StructureBlock)
                     charMap.put(character, (StructureBlock) inputList.get(++i));
@@ -449,7 +449,7 @@ class InputHandler {
             if (object instanceof Character && !NEXT_LINE.equals(object) && !NEXT_LEVEL.equals(object)) {
                 Character character = (Character)object;
 
-                if (MultiBlockInit.STRING_KEY.equals(character)) {
+                if (MultiBlockRegistry.STRING_KEY.equals(character)) {
                     if (inputList.size() > i+2 && inputList.get(i+1) instanceof String && inputList.get(i+2) instanceof StructureBlock)
                         i+=2;
                 } else if (inputList.size() > i+1 && inputList.get(i+1) instanceof StructureBlock)
@@ -469,11 +469,11 @@ class InputHandler {
 
         for (Object object : inputList)
             if (object instanceof String) {
-                ArrayList<String> strings = StringUtil.splitString((String)object, MultiBlockInit.STRING_KEY, true);
+                ArrayList<String> strings = StringUtil.splitString((String)object, MultiBlockRegistry.STRING_KEY, true);
 
                 for (String string : strings)
                     if(!string.isEmpty())
-                        if(MultiBlockInit.STRING_KEY.equals(string.charAt(0))) {
+                        if(MultiBlockRegistry.STRING_KEY.equals(string.charAt(0))) {
                             if (string.length() > 1)
                                 arrayList.add(string);
                         } else

@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.OPAQUE_LIGHT;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.OPAQUE_LIGHT;
 
 public class SBlockLightOpaque extends StructureBlock {
 

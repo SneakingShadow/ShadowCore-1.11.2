@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockInit.REPLACEABLE_BLOCK;
+import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.REPLACEABLE_BLOCK;
 
 public class SBlockReplaceable extends StructureBlock {
 
