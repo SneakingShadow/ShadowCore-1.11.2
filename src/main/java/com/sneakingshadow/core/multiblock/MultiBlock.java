@@ -55,84 +55,85 @@ public class MultiBlock {
      * Returns null if it didn't find a structure.
      * */
     public Structure findStructure(World world, int x, int y, int z) {
-        ArrayList<Structure> structure = findStructures(world, x, y, z, false);
+        ArrayList<Structure> structure = findStructures(world, x, y, z, false, false);
         return structure.isEmpty() ? null : structure.get(0);
     }
 
     /**
      * Finds all possible structures in world. Useful if you want to guarantee there aren't structures overlapping.
-     * Returns and empty array if none are found
+     * Returns an empty array if none are found.
      * */
     public ArrayList<Structure> findStructures(World world, int x, int y, int z) {
         return findStructures(world, x, y, z, true);
     }
 
     /**
+     * Finds all possible structures in world. Useful if you want to guarantee there aren't structures overlapping.
+     * Returns an empty array if none are found.
+     * If excludeDuplicates is true, then it won't add duplicate structures.
+     * */
+    public ArrayList<Structure> findStructures(World world, int x, int y, int z, boolean excludeDuplicates) {
+        return findStructures(world, x, y, z, excludeDuplicates, true);
+    }
+
+    /**
      * Returns an empty ArrayList if no structures are found.
      * */
-    private ArrayList<Structure> findStructures(World world, int x, int y, int z, boolean checkAllStructures) {
-        ArrayList<Structure> structureList = new ArrayList<Structure>();
+    private ArrayList<Structure> findStructures(World world, int x, int y, int z, boolean excludeDuplicates, boolean checkAllStructures) {
+        ArrayList<Structure> structures = new ArrayList<Structure>();
 
         if (y < 0 || y > 255)
-            return structureList;
+            return structures;
 
         //Loop through array
-        for (int ix = 0; ix < structureArray.sizeX(); ix++) {
-            for (int iy = 0; iy < structureArray.sizeY(); iy++) {
-                for (int iz = 0; iz < structureArray.sizeZ(); iz++) {
-                    //Check if program should continue checking for structure at these array coordinates
-                    if (structureArray.get(ix, iy, iz).startCheckingForStructure(world, x, y, z)) {
-                        /*
-                        * Looks at array as a cube with 6 sides and 4 possible rotations per side.
-                        * */
+        for (int ix = 0; ix < structureArray.sizeX(); ix++)   for (int iy = 0; iy < structureArray.sizeY(); iy++)   for (int iz = 0; iz < structureArray.sizeZ(); iz++) {
+            ArrayList<Structure> structureList = new ArrayList<Structure>();
 
-                        //Top side, and if rotatesAroundX or rotatesAroundZ then the bottom side as well
-                        for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2) {
-                            for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
-                                Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, 0);
-                                if (structure != null) {
-                                    structureList.add(structure);
-                                    if (!checkAllStructures)
-                                        return structureList;
-                                }
-                            }
-                        }
 
-                        //Two of the four sides that are not top nor bottom, that are inaccessible by rotationZ
-                        if (rotatesAroundX) {
-                            for (int rotationX = 1; rotationX < 4; rotationX += 2) {
-                                for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
-                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
-                                    if (structure != null) {
-                                        structureList.add(structure);
-                                        if (!checkAllStructures)
-                                            return structureList;
-                                    }
-                                }
-                            }
-                        }
+            //Check if program should continue checking for structure at these array coordinates
+            if (structureArray.get(ix, iy, iz).startCheckingForStructure(world, x, y, z)) {
+                /*
+                * Looks at array as a cube with 6 sides and 4 possible rotations per side.
+                * */
 
-                        //Two of the four sides that are not top nor bottom, that are inaccessible by rotationX
-                        if (rotatesAroundZ) {
-                            for (int rotationZ = 1; rotationZ < 4; rotationZ += 2) {
-                                for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
-                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
-                                    if (structure != null) {
-                                        structureList.add(structure);
-                                        if (!checkAllStructures)
-                                            return structureList;
-                                    }
-                                }
-                            }
-                        }
-
+                //Top side, and if rotatesAroundX or rotatesAroundZ then the bottom side as well
+                for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2)   for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
+                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, 0);
+                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                        structureList.add(structure);
+                        if (!checkAllStructures)
+                            return structureList;
                     }
-
                 }
+
+                //Two of the four sides that are not top nor bottom, that are inaccessible by rotationZ
+                if (rotatesAroundX)   for (int rotationX = 1; rotationX < 4; rotationX += 2)   for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
+                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
+                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                        structureList.add(structure);
+                        if (!checkAllStructures)
+                            return structureList;
+                    }
+                }
+
+                //Two of the four sides that are not top nor bottom, that are inaccessible by rotationX
+                if (rotatesAroundZ)   for (int rotationZ = 1; rotationZ < 4; rotationZ += 2)   for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
+                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ);
+                    if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                        structureList.add(structure);
+                        if (!checkAllStructures)
+                            return structureList;
+                    }
+                }
+            }
+
+
+            for (Structure structure : structureList) {
+                structures.add(structure);
             }
         }
 
-        return structureList;
+        return structures;
     }
 
 
@@ -204,5 +205,54 @@ public class MultiBlock {
     public void debugStructureArray() {
         structureArray.debug();
     }
+
+
+    private ArrayList<Structure> excludeDuplicateStructures(ArrayList<Structure> structures) {
+        ArrayList<Structure> structureList = new ArrayList<Structure>();
+        for (Structure structure : structures) {
+
+        }
+
+        return structures;
+    }
+
+    private boolean containesStructure(ArrayList<Structure> structureList, Structure structure) {
+        Vec3[] corners = new Vec3[8];
+        { //Creates all the corners
+            int i = 0;
+            int[] x_values = new int[] {structure.getStartXCoord(), structure.getEndXCoord()};
+            int[] y_values = new int[] {structure.getStartYCoord(), structure.getEndYCoord()};
+            int[] z_values = new int[] {structure.getStartZCoord(), structure.getEndZCoord()};
+
+            for (int x : x_values )
+                for (int y : y_values)
+                    for (int z : z_values)
+                        corners[i++] = Vec3.createVectorHelper(x,y,z);
+        }
+
+        for (Structure list_structure : structureList) {
+            if (sameCorners(list_structure, corners)) {
+
+            }
+        }
+
+        return true;
+    }
+
+    private boolean sameCorners(Structure structure, Vec3[] corners) {
+        int[] x_values = new int[] {structure.getStartXCoord(), structure.getEndXCoord()};
+        int[] y_values = new int[] {structure.getStartYCoord(), structure.getEndYCoord()};
+        int[] z_values = new int[] {structure.getStartZCoord(), structure.getEndZCoord()};
+
+        for (Vec3 corner : corners)
+            for (int x : x_values )
+                for (int y : y_values)
+                    for (int z : z_values)
+                        if (corner.xCoord != x || corner.yCoord != y || corner.zCoord != z)
+                            return false;
+
+        return true;
+    }
+
 }
 
