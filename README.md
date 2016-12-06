@@ -19,14 +19,14 @@ Blocks will be converted to a StructureBlock checking for that block disregardin
 ItemStacks will be converted to a StructureBlock that checks for the Item converted to a Block, with the same metadata as the ItemStack's damage, if applicable.  
 Special characters will be converted to their specified StructureBlock.  
 Operators, after having taken its operands, will also be converted into a StructureBlock.  
-ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.
-    * If the arrayList mapped to a key, or duplicated by a duplicator with a higher level than 0, 
-    then everywhere that same arraylist is used, it has to return true on the same array-positions.
+ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.  
+    * If the arrayList mapped to a key, or duplicated by a duplicator with a higher level than 0,  
+    then everywhere that same arraylist is used, it has to return true on the same array-positions.  
     * Example:  
-      `ArrayList<Object> arrayList = new Arraylist<Object>;`
-      `arrayList.add(Blocks.cobblestone)`
-      `arrayList.add(Blocks.sand)`
-      `arrayList.add(Blocks.dirt)`
+      `ArrayList<Object> arrayList = new Arraylist<Object>;`  
+      `arrayList.add(Blocks.cobblestone)`  
+      `arrayList.add(Blocks.sand)`  
+      `arrayList.add(Blocks.dirt)`  
       `new MultiBlock("xxx", 'x', arrayList )`  
       * A line of three cobble, three sand, or three dirt. Can't be intermixed.  
 
@@ -175,9 +175,9 @@ debugStructureArray()
   * '&' = and       
     * takes two operands, one before and one after.  
     * Both cases have to be true  
-  * '|' = or        
+  * '|' = or  
     * takes two operands, one before and one after.  
-    * One of the cases have to be true.
+    * One of the cases have to be true.  
     
 ---
 
