@@ -23,4 +23,11 @@ public class SBlockLiquid extends StructureBlock {
         return "'" + LIQUID + "'";
     }
 
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockLiquid;
+    }
 }

@@ -17,6 +17,8 @@ public abstract class StructureBlock {
      * Needed functions to implement:
      *     startCheckingForStructure
      *     one of the blockIsValid functions
+     * Useful functions to implement:
+     *     equalsStructureBlock
      * */
 
     /**
@@ -31,7 +33,7 @@ public abstract class StructureBlock {
     /**
      * @param world
      * @param worldPosition position of block in world
-     * @param arrayPosition position of block in world
+     * @param arrayPosition position of block in array
      * @param rotationX rotation around xAxis
      * @param rotationY rotation around yAxis
      * @param rotationZ rotation around zAxis
@@ -44,8 +46,15 @@ public abstract class StructureBlock {
     }
 
     /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return this.equals(structureBlock);
+    }
+
+    /**
      * Gets called at end of every search for valid structure.
-     * Used by OperatorOr to reset information of valid calls.
+     * Used by ArrayList to reset information of valid calls.
      * */
     public void reset() {}
 
@@ -95,6 +104,4 @@ public abstract class StructureBlock {
 
         return structureBlock != null ? structureBlock : new SBlockFalse();
     }
-
-    public boolean equals()
 }

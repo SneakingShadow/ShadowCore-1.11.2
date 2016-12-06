@@ -1,6 +1,7 @@
 package com.sneakingshadow.core.multiblock.structureblock.operator;
 
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
+import com.sneakingshadow.core.multiblock.structureblock.special.SBlockNull;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -14,12 +15,12 @@ import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NOT;
  */
 public class OperatorNot extends Operator {
 
-    private StructureBlock operand = null;
+    private StructureBlock operand = new SBlockNull(); //Will be inverted to always false
 
     private Object operand_input;
 
     public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
-        return operand != null && !operand.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ);
+        return !operand.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ);
     }
 
     /**
@@ -27,7 +28,7 @@ public class OperatorNot extends Operator {
      */
     @Override
     public boolean startCheckingForStructure(World world, int x, int y, int z) {
-        return operand != null && !operand.startCheckingForStructure(world, x, y, z);
+        return !operand.startCheckingForStructure(world, x, y, z);
     }
 
     /**
@@ -62,11 +63,25 @@ public class OperatorNot extends Operator {
      * */
     public StructureBlock map(HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap) {
         operand = mapObjectNull(operand_input, charMap, stringMap);
+        operand = operand != null ? operand : new SBlockNull();
 
         return this;
     }
 
+    public StructureBlock getOperand() {
+        return operand;
+    }
+
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof OperatorNot
+                && operand.equalsStructureBlock(((OperatorNot) structureBlock).getOperand());
+    }
+
     public String toString() {
-        return NOT + (operand != null ? operand.toString() : "(invalid operand)");
+        return NOT + operand.toString();
     }
 }

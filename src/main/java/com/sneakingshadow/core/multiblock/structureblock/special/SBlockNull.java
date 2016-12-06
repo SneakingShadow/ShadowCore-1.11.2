@@ -25,4 +25,12 @@ public class SBlockNull extends StructureBlock {
     public String toString() {
         return "'" + NULL + "'";
     }
+
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockNull;
+    }
 }

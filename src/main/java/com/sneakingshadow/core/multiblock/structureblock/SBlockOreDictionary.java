@@ -23,6 +23,18 @@ public class SBlockOreDictionary extends StructureBlock {
         return blockIsValid(world, x, y, z);
     }
 
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockOreDictionary && ore_name.equals(((SBlockOreDictionary) structureBlock).getOreName());
+    }
+
+    public String getOreName() {
+        return ore_name;
+    }
+
     public String toString() {
         return "@" + ore_name + "@";
     }

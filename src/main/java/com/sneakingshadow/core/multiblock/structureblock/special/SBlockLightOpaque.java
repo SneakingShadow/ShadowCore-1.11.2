@@ -23,4 +23,11 @@ public class SBlockLightOpaque extends StructureBlock {
         return "'" + OPAQUE_LIGHT + "'";
     }
 
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockLightOpaque;
+    }
 }

@@ -112,6 +112,20 @@ public class Structure {
         return (int)endCorner.zCoord;
     }
 
+    public int getRotationX() {
+        return rotationX;
+    }
+    public int getRotationY() {
+        return rotationY;
+    }
+    public int getRotationZ() {
+        return rotationZ;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
     private void setEndCorner() {
         Vec3 arraySize = rotate(Vec3.createVectorHelper(multiBlock.sizeX()-1, multiBlock.sizeY()-1, multiBlock.sizeZ()-1), rotationX,rotationY,rotationZ, flag);
         endCorner = startCorner.addVector(arraySize.xCoord,arraySize.yCoord,arraySize.zCoord);
@@ -123,5 +137,5 @@ public class Structure {
                 + "MultiBlock: @" + Integer.toHexString(multiBlock.hashCode()) + "\n"
                 + "Start corner: (" + startCorner.xCoord + "," + startCorner.yCoord + "," + startCorner.zCoord + ")" + "\n"
                 + "End corner: (" + endCorner.xCoord + "," + endCorner.yCoord + "," + endCorner.zCoord + ")";
-    };
+    }
 }

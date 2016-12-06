@@ -23,4 +23,11 @@ public class SBlockReplaceable extends StructureBlock {
         return "'" + REPLACEABLE_BLOCK + "'";
     }
 
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockReplaceable;
+    }
 }

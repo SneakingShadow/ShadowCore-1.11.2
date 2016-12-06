@@ -21,13 +21,9 @@ public class OperatorOr extends Operator {
     private Object operand_1_input;
     private Object operand_2_input;
 
-    private boolean operand_1_bool = true;
-    private boolean operand_2_bool = true;
-
     public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
-        operand_1_bool &= operand_1.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord);
-        operand_2_bool &= operand_2.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord);
-        return operand_1_bool || operand_2_bool;
+        return operand_1.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord)
+                || operand_2.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord);
     }
 
     /**
@@ -63,11 +59,6 @@ public class OperatorOr extends Operator {
         return validPositions(inputList,position-1,position+1);
     }
 
-    public void reset() {
-        operand_1_bool = true;
-        operand_2_bool = true;
-    }
-
     /**
      * Gets called at the end of structure initialization, in order to let operators and arrayList sort its contained structure blocks out.
      *
@@ -81,9 +72,26 @@ public class OperatorOr extends Operator {
         return this;
     }
 
+    public StructureBlock getFirstOperand() {
+        return operand_1;
+    }
+
+    public StructureBlock getSecondOperand() {
+        return operand_2;
+    }
+
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof OperatorOr
+                && operand_1.equalsStructureBlock(((OperatorOr) structureBlock).getFirstOperand())
+                && operand_2.equalsStructureBlock(((OperatorOr) structureBlock).getSecondOperand());
+    }
+
     @Override
     public String toString() {
-        String string =  "OperatorOr@" + Integer.toHexString(hashCode());
-        return string + ": (" + operand_1.toString() + " " + OR + " " + operand_2.toString() + ")";
+        return "(" + operand_1.toString() + " " + OR + " " + operand_2.toString() + ")";
     }
 }

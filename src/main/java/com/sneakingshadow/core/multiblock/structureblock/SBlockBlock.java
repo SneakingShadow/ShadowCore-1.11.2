@@ -27,6 +27,25 @@ public class SBlockBlock extends StructureBlock {
         return blockIsValid(world, x, y, z);
     }
 
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof SBlockBlock && block == ((SBlockBlock) structureBlock).getBlock() && metadata == ((SBlockBlock) structureBlock).getMetadata();
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    /**
+     * Returns -1 if no metadata has been specified
+     * */
+    public int getMetadata() {
+        return metadata;
+    }
+
     @Override
     public String toString() {
         if (metadata == -1) {

@@ -521,7 +521,7 @@ class InputHandler {
 
         for (Object object : inputList) {
             if (object instanceof SBlockArrayList) {
-                ArrayList<Object> arrayInputList = ((SBlockArrayList) object).getArrayList();
+                ArrayList<Object> arrayInputList = ((SBlockArrayList) object).getInputList();
                 if (!arrayInputList.isEmpty()) {
                     if (arrayInputList.size() == 1)
                         arrayList.add(arrayInputList.get(0));

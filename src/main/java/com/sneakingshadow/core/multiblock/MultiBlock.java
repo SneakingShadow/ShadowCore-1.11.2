@@ -223,7 +223,48 @@ public class MultiBlock {
 
         for (Structure list_structure : structureList) {
             if (sameCorners(list_structure, corners)) {
+                Vec3 arrayCornerInputStart = Vec3.createVectorHelper(0,0,0);
+                Vec3 arrayCornerInputEnd = rotate(
+                        Vec3.createVectorHelper(sizeX(), sizeY(), sizeZ()),
+                        list_structure.getRotationX(),
+                        list_structure.getRotationY(),
+                        list_structure.getRotationZ(),
+                        list_structure.getFlag()
+                );
+                if (arrayCornerInputEnd.xCoord < 0) {
+                    arrayCornerInputStart.xCoord = -arrayCornerInputEnd.xCoord;
+                    arrayCornerInputEnd.xCoord = 0;
+                }
+                if (arrayCornerInputEnd.yCoord < 0) {
+                    arrayCornerInputStart.yCoord = -arrayCornerInputEnd.yCoord;
+                    arrayCornerInputEnd.yCoord = 0;
+                }
+                if (arrayCornerInputEnd.zCoord < 0) {
+                    arrayCornerInputStart.zCoord = -arrayCornerInputEnd.zCoord;
+                    arrayCornerInputEnd.zCoord = 0;
+                }
 
+
+                Vec3 arrayCornerListStart = Vec3.createVectorHelper(0,0,0);
+                Vec3 arrayCornerListEnd = rotate(
+                        Vec3.createVectorHelper(sizeX(), sizeY(), sizeZ()),
+                        structure.getRotationX(),
+                        structure.getRotationY(),
+                        structure.getRotationZ(),
+                        structure.getFlag()
+                );
+                if (arrayCornerListEnd.xCoord < 0) {
+                    arrayCornerListStart.xCoord = -arrayCornerListEnd.xCoord;
+                    arrayCornerListEnd.xCoord = 0;
+                }
+                if (arrayCornerListEnd.yCoord < 0) {
+                    arrayCornerListStart.yCoord = -arrayCornerListEnd.yCoord;
+                    arrayCornerListEnd.yCoord = 0;
+                }
+                if (arrayCornerListEnd.zCoord < 0) {
+                    arrayCornerListStart.zCoord = -arrayCornerListEnd.zCoord;
+                    arrayCornerListEnd.zCoord = 0;
+                }
 
 
             }

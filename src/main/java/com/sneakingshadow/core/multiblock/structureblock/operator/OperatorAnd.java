@@ -72,6 +72,24 @@ public class OperatorAnd extends Operator {
         return this;
     }
 
+    public StructureBlock getFirstOperand() {
+        return operand_1;
+    }
+
+    public StructureBlock getSecondOperand() {
+        return operand_2;
+    }
+
+    /**
+     * Used for comparing structures, in order to remove duplicates.
+     * */
+    @Override
+    public boolean equalsStructureBlock(StructureBlock structureBlock) {
+        return structureBlock instanceof OperatorAnd
+                && operand_1.equalsStructureBlock(((OperatorAnd) structureBlock).getFirstOperand())
+                && operand_2.equalsStructureBlock(((OperatorAnd) structureBlock).getSecondOperand());
+    }
+
     public String toString() {
         return "(" + operand_1.toString() + " " + AND + " " + operand_2.toString() + ")";
     }
