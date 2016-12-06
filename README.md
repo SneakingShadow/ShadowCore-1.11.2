@@ -185,10 +185,10 @@ debugStructureArray()
   * Duplicator, level 0  
   * Extraction of InputLists  
   * Brackets  
-  * Convert and go through ArrayLists in this order of precedence, just without Structure Modifiers  
+  * Duplicator, level 1  
+  * Convert ArrayLists to StructureBlocks, and go through ArrayLists in this order of precedence, just without Structure Modifiers  
   * Modifiers  
   * Special values  
-  * Duplicator, level 1  
   * Operators  
   * Duplicator, level 2  
   * Mapping  
