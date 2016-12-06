@@ -17,9 +17,18 @@ null will be converted to an always valid StructureBlock.
 Items will be converted to Blocks if possible, or null.  
 Blocks will be converted to a StructureBlock checking for that block disregarding metadata.  
 ItemStacks will be converted to a StructureBlock that checks for the Item converted to a Block, with the same metadata as the ItemStack's damage, if applicable.  
-ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.  
 Special characters will be converted to their specified StructureBlock.  
 Operators, after having taken its operands, will also be converted into a StructureBlock.  
+ArrayLists will be converted to a StructureBlock that's valid when one of the object stored are valid.
+    * If the arrayList mapped to a key, or duplicated by a duplicator with a higher level than 0, 
+    then everywhere that same arraylist is used, it has to return true on the same array-positions.
+    * Example:  
+      `ArrayList<Object> arrayList = new Arraylist<Object>;`
+      `arrayList.add(Blocks.cobblestone)`
+      `arrayList.add(Blocks.sand)`
+      `arrayList.add(Blocks.dirt)`
+      `new MultiBlock("xxx", 'x', arrayList )`  
+      * A line of three cobble, three sand, or three dirt. Can't be intermixed.  
 
 To make debugging simpler, the toString function was overridden and returns the array as a string.  
 Note: The array is givven in order of the smallest to largest axes.  
@@ -168,12 +177,8 @@ debugStructureArray()
     * Both cases have to be true  
   * '|' = or        
     * takes two operands, one before and one after.  
-    * One of the cases have to be true.  
-    * If operator is duplicated or mapped to a key, everywhere that same operator is used, it has to give have the same case value.  
-    * Example:  
-      `new MultiBlock("xxx", 'x', Blocks.cobblestone, '|', Blocks.sand)`  
-      * A line of three cobble, or three sand. Can't be intermixed.  
-
+    * One of the cases have to be true.
+    
 ---
 
 ### Order of precedence:  
