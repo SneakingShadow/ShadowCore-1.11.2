@@ -100,7 +100,7 @@ public class MultiBlock {
                 for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2) {
                     for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
                         Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, rotationY, 0, 0);
-                        if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                        if (structure != null && (!excludeDuplicates || !containsStructure(structureList, structure))) {
                             structureList.add(structure);
                             if (!checkAllStructures)
                                 return structureList;
@@ -113,7 +113,7 @@ public class MultiBlock {
                     for (int rotationX = 1; rotationX < 4; rotationX += 2) {
                         for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
                             Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 1);
-                            if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                            if (structure != null && (!excludeDuplicates || !containsStructure(structureList, structure))) {
                                 structureList.add(structure);
                                 if (!checkAllStructures)
                                     return structureList;
@@ -126,7 +126,7 @@ public class MultiBlock {
                     for (int rotationZ = 1; rotationZ < 4; rotationZ += 2) {
                         for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
                             Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 2);
-                            if (structure != null && (checkAllStructures || !containesStructure(structureList, structure))) {
+                            if (structure != null && (!excludeDuplicates || !containsStructure(structureList, structure))) {
                                 structureList.add(structure);
                                 if (!checkAllStructures)
                                     return structureList;
@@ -134,8 +134,6 @@ public class MultiBlock {
                         }
                     }
             }
-
-            structureList = excludeDuplicateStructures(structureList);
 
             for (Structure structure : structureList) {
                 structures.add(structure);
@@ -209,16 +207,7 @@ public class MultiBlock {
     }
 
 
-    private ArrayList<Structure> excludeDuplicateStructures(ArrayList<Structure> structures) {
-        ArrayList<Structure> structureList = new ArrayList<Structure>();
-        for (Structure structure : structures) {
-
-        }
-
-        return structures;
-    }
-
-    private boolean containesStructure(ArrayList<Structure> structureList, Structure structure) {
+    private boolean containsStructure(ArrayList<Structure> structureList, Structure structure) {
         Vec3[] corners = new Vec3[8];
         { //Creates all the corners
             int i = 0;
@@ -235,10 +224,12 @@ public class MultiBlock {
         for (Structure list_structure : structureList) {
             if (sameCorners(list_structure, corners)) {
 
+
+
             }
         }
 
-        return true;
+        return false;
     }
 
     private boolean sameCorners(Structure structure, Vec3[] corners) {

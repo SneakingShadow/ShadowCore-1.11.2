@@ -96,4 +96,5 @@ public abstract class StructureBlock {
         return structureBlock != null ? structureBlock : new SBlockFalse();
     }
 
+    public boolean equals()
 }
