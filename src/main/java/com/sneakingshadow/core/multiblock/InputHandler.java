@@ -25,13 +25,10 @@ class InputHandler {
     static StructureArray getStructureArray(Object[] objects) {
         HashMap<Character, StructureBlock> charMap = new HashMap<Character, StructureBlock>();
         HashMap<String, StructureBlock> stringMap = new HashMap<String, StructureBlock>();
-
         ArrayList<Object> arrayList = sortInput(objects, charMap, stringMap, true);
 
         if (!(charMap.isEmpty() && stringMap.isEmpty()))
             arrayList = map(arrayList, charMap, stringMap);
-
-
 
         StructureArray structureArray = new StructureArray();
         int x = 0, y = 0, z = 0;
@@ -56,33 +53,41 @@ class InputHandler {
         return structureArray;
     }
 
-
     /**
      * Sorts all the inputs, and maps objects to the maps.
      * */
     private static ArrayList<Object> sortInput(Object[] objects, HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap, boolean doMapping) {
         ArrayList<Boolean> booleans = neededFunctions(objects);
         ArrayList<Object> arrayList = ArrayListHelper.fromArray(objects);
+        int currentDuplicator = 0;
 
-        if (booleans.get(DUPLICATORS[0]))
-            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(0));
+        if (booleans.get(DUPLICATORS[currentDuplicator]))
+            arrayList = duplicator(arrayList, currentDuplicator);
+
         if (booleans.get(INPUT_LIST))
             arrayList = inputList(arrayList, new ArrayList<Object>());
+
         if (booleans.get(BRACKETS))
             arrayList = brackets(arrayList);
+
+        if (booleans.get(DUPLICATORS[++currentDuplicator]))
+            arrayList = duplicator(arrayList, currentDuplicator);
+
         if (booleans.get(ARRAY_LIST)) {
             arrayList = arrayListSort(arrayList, charMap, stringMap);
             arrayList = arrayListClear(arrayList);
         }
+
         if (booleans.get(ORE_DICTIONARY))
             arrayList = oreDictionary(arrayList);
+
         arrayList = specialValues(arrayList);
-        if (booleans.get(DUPLICATORS[1]))
-            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(2));
+
         if (booleans.get(OPERATOR))
             arrayList = operator(arrayList, MultiBlockRegistry.getOperatorList());
-        if (booleans.get(DUPLICATORS[2]))
-            arrayList = duplicator(arrayList, MultiBlockRegistry.getDuplicatorInitializer(3));
+
+        if (booleans.get(DUPLICATORS[++currentDuplicator]))
+            arrayList = duplicator(arrayList, currentDuplicator);
 
         //Allows arrayListSort to sort its content in this manner without conflicts.
         if (doMapping) {
@@ -182,7 +187,7 @@ class InputHandler {
         for (Object object : inputList)
             if (object instanceof InputList)
                 inputList(
-                        duplicator(((ArrayList<Object>) object), MultiBlockRegistry.getDuplicatorInitializer(0)),
+                        duplicator(((ArrayList<Object>) object), 0),
                         arrayList
                 );
             else
@@ -380,8 +385,8 @@ class InputHandler {
     /**
      * Initializes duplicators
      * */
-    private static ArrayList<Object> duplicator(ArrayList<Object> inputList, OperatorInitializer operatorInitializer) {
-        return operator(inputList, ArrayListHelper.createArrayList(operatorInitializer));
+    private static ArrayList<Object> duplicator(ArrayList<Object> inputList, int duplicator) {
+        return operator(inputList, ArrayListHelper.createArrayList(MultiBlockRegistry.getDuplicatorInitializer(duplicator)));
     }
 
     /**
