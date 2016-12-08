@@ -62,6 +62,7 @@ public class MultiBlock {
     /**
      * Finds all possible structures in world. Useful if you want to guarantee there aren't structures overlapping.
      * Returns an empty array if none are found.
+     * Excludes duplicate structures.
      * */
     public ArrayList<Structure> findStructures(World world, int x, int y, int z) {
         return findStructures(world, x, y, z, true);
@@ -208,82 +209,73 @@ public class MultiBlock {
 
 
     private boolean containsStructure(ArrayList<Structure> structureList, Structure structure) {
-        Vec3[] corners = new Vec3[8];
-        { //Creates all the corners
-            int i = 0;
-            int[] x_values = new int[] {structure.getStartXCoord(), structure.getEndXCoord()};
-            int[] y_values = new int[] {structure.getStartYCoord(), structure.getEndYCoord()};
-            int[] z_values = new int[] {structure.getStartZCoord(), structure.getEndZCoord()};
-
-            for (int x : x_values )
-                for (int y : y_values)
-                    for (int z : z_values)
-                        corners[i++] = Vec3.createVectorHelper(x,y,z);
-        }
+        Vec3 arrayCornerInput = rotate(
+                Vec3.createVectorHelper(sizeX(), sizeY(), sizeZ()),
+                structure.getRotationX(),
+                structure.getRotationY(),
+                structure.getRotationZ(),
+                structure.getFlag()
+        );
+        boolean bool_input_x = arrayCornerInput.xCoord < 0;
+        boolean bool_input_y = arrayCornerInput.yCoord < 0;
+        boolean bool_input_z = arrayCornerInput.zCoord < 0;
 
         for (Structure list_structure : structureList) {
-            if (sameCorners(list_structure, corners)) {
-                Vec3 arrayCornerInputStart = Vec3.createVectorHelper(0,0,0);
-                Vec3 arrayCornerInputEnd = rotate(
+            if (sameCorners(list_structure, structure)) {
+                Vec3 arrayCornerList = rotate(
                         Vec3.createVectorHelper(sizeX(), sizeY(), sizeZ()),
                         list_structure.getRotationX(),
                         list_structure.getRotationY(),
                         list_structure.getRotationZ(),
                         list_structure.getFlag()
                 );
-                if (arrayCornerInputEnd.xCoord < 0) {
-                    arrayCornerInputStart.xCoord = -arrayCornerInputEnd.xCoord;
-                    arrayCornerInputEnd.xCoord = 0;
-                }
-                if (arrayCornerInputEnd.yCoord < 0) {
-                    arrayCornerInputStart.yCoord = -arrayCornerInputEnd.yCoord;
-                    arrayCornerInputEnd.yCoord = 0;
-                }
-                if (arrayCornerInputEnd.zCoord < 0) {
-                    arrayCornerInputStart.zCoord = -arrayCornerInputEnd.zCoord;
-                    arrayCornerInputEnd.zCoord = 0;
+                boolean bool_x = arrayCornerList.xCoord < 0;
+                boolean bool_y = arrayCornerList.yCoord < 0;
+                boolean bool_z = arrayCornerList.zCoord < 0;
+
+                boolean bool = true;
+                for (int x = 0; bool && x < sizeX(); x++) {
+                    for (int y = 0; bool && y < sizeY(); y++) {
+                        for (int z = 0; bool && z < sizeZ(); z++) {
+                            int input_x = bool_input_x ? sizeX()-1 - x : x;
+                            int input_y = bool_input_y ? sizeY()-1 - y : y;
+                            int input_z = bool_input_z ? sizeZ()-1 - z : z;
+
+                            int list_x = bool_x ? sizeX()-1 - x : x;
+                            int list_y = bool_y ? sizeY()-1 - y : y;
+                            int list_z = bool_z ? sizeZ()-1 - z : z;
+
+                            if (!structureArray.get(input_x, input_y, input_z).equalsStructureBlock(structureArray.get(list_x,list_y,list_z)))
+                                bool = false;
+
+                        }
+                    }
                 }
 
-
-                Vec3 arrayCornerListStart = Vec3.createVectorHelper(0,0,0);
-                Vec3 arrayCornerListEnd = rotate(
-                        Vec3.createVectorHelper(sizeX(), sizeY(), sizeZ()),
-                        structure.getRotationX(),
-                        structure.getRotationY(),
-                        structure.getRotationZ(),
-                        structure.getFlag()
-                );
-                if (arrayCornerListEnd.xCoord < 0) {
-                    arrayCornerListStart.xCoord = -arrayCornerListEnd.xCoord;
-                    arrayCornerListEnd.xCoord = 0;
-                }
-                if (arrayCornerListEnd.yCoord < 0) {
-                    arrayCornerListStart.yCoord = -arrayCornerListEnd.yCoord;
-                    arrayCornerListEnd.yCoord = 0;
-                }
-                if (arrayCornerListEnd.zCoord < 0) {
-                    arrayCornerListStart.zCoord = -arrayCornerListEnd.zCoord;
-                    arrayCornerListEnd.zCoord = 0;
-                }
-
-
+                if (bool)
+                    return true;
             }
         }
 
         return false;
     }
 
-    private boolean sameCorners(Structure structure, Vec3[] corners) {
-        int[] x_values = new int[] {structure.getStartXCoord(), structure.getEndXCoord()};
-        int[] y_values = new int[] {structure.getStartYCoord(), structure.getEndYCoord()};
-        int[] z_values = new int[] {structure.getStartZCoord(), structure.getEndZCoord()};
+    private boolean sameCorners(Structure list_structure, Structure structure) {
+        int[][] list_values = new int[][] {
+                {list_structure.getStartXCoord(), list_structure.getEndXCoord()},
+                {list_structure.getStartYCoord(), list_structure.getEndYCoord()},
+                {list_structure.getStartZCoord(), list_structure.getEndZCoord()}
+        };
+        int[][] input_values = new int[][] {
+                {structure.getStartXCoord(), structure.getEndXCoord()},
+                {structure.getStartYCoord(), structure.getEndYCoord()},
+                {structure.getStartZCoord(), structure.getEndZCoord()}
+        };
 
-        for (Vec3 corner : corners)
-            for (int x : x_values )
-                for (int y : y_values)
-                    for (int z : z_values)
-                        if (corner.xCoord != x || corner.yCoord != y || corner.zCoord != z)
-                            return false;
+        for (int axis = 0; axis < 3; axis++)
+            if ((input_values[axis][0] != list_values[axis][0] || input_values[axis][1] != list_values[axis][1])
+                            && (input_values[axis][0] != list_values[axis][1] || input_values[axis][1] != list_values[axis][0]))
+                return false;
 
         return true;
     }

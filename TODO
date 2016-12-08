@@ -16,5 +16,3 @@ Add Tool utility for ItemShadow.
 
 Add ItemSpadeShadow, ItemPickaxeShadow, ItemAxeShadow, etc.   
 Make sure looking direction thing works
-
-Might consider making InputHandler an object that's created and called, cleaning up all the: arrayList = function(arrayList, parameters)
