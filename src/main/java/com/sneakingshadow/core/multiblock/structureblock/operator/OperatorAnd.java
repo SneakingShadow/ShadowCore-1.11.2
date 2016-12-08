@@ -72,6 +72,15 @@ public class OperatorAnd extends Operator {
         return this;
     }
 
+    /**
+     * Gets called at end of every search for valid structure.
+     * Used by ArrayList to reset information of valid calls.
+     * */
+    public void reset() {
+        operand_1.reset();
+        operand_2.reset();
+    }
+
     public StructureBlock getFirstOperand() {
         return operand_1;
     }

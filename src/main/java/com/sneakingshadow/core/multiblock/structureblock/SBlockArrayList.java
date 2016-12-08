@@ -28,6 +28,7 @@ public class SBlockArrayList extends StructureBlock {
     }
 
     public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
+        //adds missing booleans
         for (int i = boolList.size(), size = arrayList.size(); i < size; i++)
             boolList.add(true);
 
@@ -50,8 +51,10 @@ public class SBlockArrayList extends StructureBlock {
      * */
     public void reset() {
         boolList = new ArrayList<Boolean>();
-        for (int i = 0, size = arrayList.size(); i < size; i++)
+        for (StructureBlock structureBlock : arrayList) {
+            structureBlock.reset();
             boolList.add(true);
+        }
     }
 
     /**
@@ -59,8 +62,8 @@ public class SBlockArrayList extends StructureBlock {
      */
     @Override
     public boolean startCheckingForStructure(World world, int x, int y, int z) {
-        for (StructureBlock structureBlock : arrayList)
-            if (structureBlock.startCheckingForStructure(world, x, y, z))
+        for (StructureBlock anArrayList : arrayList)
+            if (anArrayList.startCheckingForStructure(world, x, y, z))
                 return true;
 
         return false;
@@ -81,47 +84,7 @@ public class SBlockArrayList extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        if (!(structureBlock instanceof SBlockArrayList)) {
-            return false;
-        }
-
-        ArrayList<StructureBlock> arrayList = new ArrayList<StructureBlock>();
-        ArrayList<StructureBlock> inputArrayList = new ArrayList<StructureBlock>();
-        {
-            ArrayList<StructureBlock> list = ((SBlockArrayList) structureBlock).getArrayList();
-            if (list.size() != this.arrayList.size())
-                return false;
-
-            for (StructureBlock sBlock : list)
-                inputArrayList.add(sBlock);
-
-            for (StructureBlock sBlock : this.arrayList)
-                arrayList.add(sBlock);
-        }
-
-        for (int i = arrayList.size()-1; i >= 0; i--)
-            for (int j = inputArrayList.size() - 1; j >= 0; j--)
-                if (arrayList.get(i).equals(inputArrayList.get(j))) {
-                    inputArrayList.remove(j);
-                    arrayList.remove(i);
-                    break;
-                }
-
-        for (int i = arrayList.size()-1; i >= 0; i--) {
-            boolean bool = true;
-            for (int j = inputArrayList.size() - 1; j >= 0; j--)
-                if (arrayList.get(i).equalsStructureBlock(inputArrayList.get(j))) {
-                    inputArrayList.remove(j);
-                    arrayList.remove(i);
-                    bool = false;
-                    break;
-                }
-
-            if (bool)
-                return false;
-        }
-
-        return true;
+        return this == structureBlock;
     }
 
     public String toString() {

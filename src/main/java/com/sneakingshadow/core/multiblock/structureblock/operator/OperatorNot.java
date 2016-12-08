@@ -68,8 +68,20 @@ public class OperatorNot extends Operator {
         return this;
     }
 
+    /**
+     * Gets called at end of every search for valid structure.
+     * Used by ArrayList to reset information of valid calls.
+     * */
+    public void reset() {
+        operand.reset();
+    }
+
     public StructureBlock getOperand() {
         return operand;
+    }
+
+    public String toString() {
+        return NOT + operand.toString();
     }
 
     /**
@@ -79,9 +91,5 @@ public class OperatorNot extends Operator {
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
         return structureBlock instanceof OperatorNot
                 && operand.equalsStructureBlock(((OperatorNot) structureBlock).getOperand());
-    }
-
-    public String toString() {
-        return NOT + operand.toString();
     }
 }

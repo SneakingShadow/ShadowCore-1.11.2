@@ -1,8 +1,11 @@
 package com.sneakingshadow.core;
 
+import com.sneakingshadow.core.debug.BlockDebug;
 import com.sneakingshadow.core.multiblock.MultiBlockInit;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 
 import static com.sneakingshadow.core.Core.*;
 
@@ -21,6 +24,13 @@ public class Core
     {
         MultiBlockInit.init();
         System.out.println("Shadow-Core multiblock initialized");
+
+        //*---------Debug---------//
+
+        Block debugBlock = new BlockDebug();
+        GameRegistry.registerBlock(debugBlock, "debug");
+
+        //*/
     }
 
 }
