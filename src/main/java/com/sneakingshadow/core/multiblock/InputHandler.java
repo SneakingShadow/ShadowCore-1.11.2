@@ -6,7 +6,7 @@ import com.sneakingshadow.core.multiblock.structureblock.SBlockBlock;
 import com.sneakingshadow.core.multiblock.structureblock.SBlockOreDictionary;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import com.sneakingshadow.core.multiblock.structureblock.operator.Operator;
-import com.sneakingshadow.core.multiblock.structureblock.special.SBlockNull;
+import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockNull;
 import com.sneakingshadow.core.util.ArrayListHelper;
 import com.sneakingshadow.core.util.StringUtil;
 import net.minecraft.block.Block;
@@ -17,8 +17,8 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NEXT_LEVEL;
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NEXT_LINE;
+import static com.sneakingshadow.core.multiblock.MultiBlock.NEXT_LEVEL;
+import static com.sneakingshadow.core.multiblock.MultiBlock.NEXT_LINE;
 
 class InputHandler {
 
@@ -142,10 +142,10 @@ class InputHandler {
                 }
             }
 
-        if (!booleans.get(ORE_DICTIONARY) && MultiBlockRegistry.ORE_DICTIONARY.equals(object)) {
+        if (!booleans.get(ORE_DICTIONARY) && MultiBlock.ORE_DICTIONARY.equals(object)) {
             booleans.set(ORE_DICTIONARY, true);
         }
-        else if (!booleans.get(BRACKETS) && (MultiBlockRegistry.BRACKET_START.equals(object) || MultiBlockRegistry.BRACKET_END.equals(object))) {
+        else if (!booleans.get(BRACKETS) && (MultiBlock.BRACKET_START.equals(object) || MultiBlock.BRACKET_END.equals(object))) {
             booleans.set(BRACKETS, true);
             booleans.set(ARRAY_LIST,true);
         }
@@ -185,10 +185,10 @@ class InputHandler {
                 if (object instanceof Character) {
                     boolean bool = true;
 
-                    if (MultiBlockRegistry.BRACKET_START.equals(object)) {
+                    if (MultiBlock.BRACKET_START.equals(object)) {
                         bracketsNotClosed++;
                         bool = false;
-                    } else if (MultiBlockRegistry.BRACKET_END.equals(object)) {
+                    } else if (MultiBlock.BRACKET_END.equals(object)) {
                         //Subtract one, unless lower, then set to 0.
                         bracketsNotClosed = bracketsNotClosed > 0 ? bracketsNotClosed - 1 : 0;
                         bool = false;
@@ -207,17 +207,17 @@ class InputHandler {
                     }
                 } else if (object instanceof String) {
                     ArrayList<String> stringArray = StringUtil.splitString(
-                            (String) object, new Character[]{MultiBlockRegistry.BRACKET_START, MultiBlockRegistry.BRACKET_END}
+                            (String) object, new Character[]{MultiBlock.BRACKET_START, MultiBlock.BRACKET_END}
                     );
 
                     for (String string : stringArray) {
                         boolean bool = false;
                         Character character = string.charAt(0);
 
-                        if (MultiBlockRegistry.BRACKET_START.equals(character)) {
+                        if (MultiBlock.BRACKET_START.equals(character)) {
                             bracketsNotClosed++;
                             bool = true;
-                        } else if (MultiBlockRegistry.BRACKET_END.equals(character)) {
+                        } else if (MultiBlock.BRACKET_END.equals(character)) {
                             //Subtract one, unless lower, then set to 0.
                             bracketsNotClosed = bracketsNotClosed > 0 ? bracketsNotClosed - 1 : 0;
                             bool = true;
@@ -279,17 +279,17 @@ class InputHandler {
             for (int i = 0, arrayListSize = arrayList.size(); i < arrayListSize; i++) {
                 Object object = arrayList.get(i);
 
-                if (object instanceof Character && MultiBlockRegistry.ORE_DICTIONARY.equals(object) && i + 1 < arrayList.size()) {
+                if (object instanceof Character && MultiBlock.ORE_DICTIONARY.equals(object) && i + 1 < arrayList.size()) {
                     Object object_2 = arrayList.get(++i);
                     if (object_2 instanceof String)
                         inputList.add(new SBlockOreDictionary((String) object_2));
                     else
                         inputList.add(object_2);
                 } else if (object instanceof String) {
-                    ArrayList<String> stringList = StringUtil.splitString((String) object, MultiBlockRegistry.ORE_DICTIONARY, true);
+                    ArrayList<String> stringList = StringUtil.splitString((String) object, MultiBlock.ORE_DICTIONARY, true);
 
                     for (String string : stringList) {
-                        if (MultiBlockRegistry.ORE_DICTIONARY.equals(string.charAt(0))) {
+                        if (MultiBlock.ORE_DICTIONARY.equals(string.charAt(0))) {
                             if (string.length() > 1)
                                 inputList.add(new SBlockOreDictionary(string.substring(1, string.length())));
                         } else if (!string.isEmpty())
@@ -314,7 +314,7 @@ class InputHandler {
             {
                 Block block = Block.getBlockFromItem((Item)object);
                 if (block == Blocks.air)
-                    inputList.add(new SBlockNull());
+                    inputList.add(new StructureBlockNull());
                 else
                     inputList.add(new SBlockBlock(block));
             }
@@ -326,13 +326,13 @@ class InputHandler {
             {
                 Block block = Block.getBlockFromItem(((ItemStack) object).getItem());
                 if (block == Blocks.air)
-                    inputList.add(new SBlockNull());
+                    inputList.add(new StructureBlockNull());
                 else
                     inputList.add(new SBlockBlock(block, ((ItemStack) object).getItemDamage()));
             }
             else if (object == null)
             {
-                inputList.add(new SBlockNull());
+                inputList.add(new StructureBlockNull());
             }
             else if (object instanceof String)
             {
@@ -420,7 +420,7 @@ class InputHandler {
             if (object instanceof Character) {
                 Character character = (Character)object;
 
-                if (MultiBlockRegistry.STRING_KEY.equals(character))
+                if (MultiBlock.STRING_KEY.equals(character))
                 {
                     if (arrayList.size() > i+2 && arrayList.get(i+1) instanceof String && arrayList.get(i+2) instanceof StructureBlock) {
                         if (doMapping)
@@ -451,11 +451,11 @@ class InputHandler {
 
             for (Object object : arrayList) {
                 if (object instanceof String) {
-                    ArrayList<String> strings = StringUtil.splitString((String) object, MultiBlockRegistry.STRING_KEY, true);
+                    ArrayList<String> strings = StringUtil.splitString((String) object, MultiBlock.STRING_KEY, true);
 
                     for (String string : strings)
                         if (!string.isEmpty())
-                            if (MultiBlockRegistry.STRING_KEY.equals(string.charAt(0))) {
+                            if (MultiBlock.STRING_KEY.equals(string.charAt(0))) {
                                 if (string.length() > 1)
                                     inputList.add(string.substring(1));
                             } else
@@ -485,7 +485,7 @@ class InputHandler {
                 StructureBlock structureBlock = charMap.get(object);
                 arrayList.set(i,
                         structureBlock != null ?
-                                structureBlock.map(charMap, stringMap) : new SBlockNull()
+                                structureBlock.map(charMap, stringMap) : new StructureBlockNull()
                 );
             }
             else if (object instanceof String)
@@ -493,7 +493,7 @@ class InputHandler {
                 StructureBlock structureBlock = stringMap.get(object);
                 arrayList.set(i,
                         structureBlock != null ?
-                                structureBlock.map(charMap, stringMap) : new SBlockNull()
+                                structureBlock.map(charMap, stringMap) : new StructureBlockNull()
                 );
             }
         }

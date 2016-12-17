@@ -6,89 +6,80 @@ import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import com.sneakingshadow.core.multiblock.structureblock.operator.*;
 import com.sneakingshadow.core.multiblock.structureblock.special.*;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.*;
-
 public class MultiBlockInit {
 
     public static void init() {
+
         //Special characters
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(NULL) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.NULL) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockNull();
+                return new StructureBlockNull();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(FULL_BLOCK) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.FULL_BLOCK) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockFull();
+                return new StructureBlockFull();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(AIR) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.AIR) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockAir();
+                return new StructureBlockAir();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(REPLACEABLE_BLOCK) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.REPLACEABLE_BLOCK) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockReplaceable();
+                return new StructureBlockReplaceable();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(LIQUID) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.LIQUID) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockLiquid();
+                return new StructureBlockLiquid();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(OPAQUE_MATERIAL) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.OPAQUE_MATERIAL) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockOpaqueMaterial();
+                return new StructureBlockOpaqueMaterial();
             }
         });
-        MultiBlockRegistry.register(new SpecialCharacterInitializer(OPAQUE_LIGHT) {
+        MultiBlockRegistry.register(new SpecialCharacterInitializer(MultiBlock.OPAQUE_LIGHT) {
             @Override
             public StructureBlock getStructureBlock() {
-                return new SBlockLightOpaque();
+                return new StructureBlockOpaque();
             }
         });
 
         //Operators
-        MultiBlockRegistry.register(new OperatorInitializer(NOT) {
+        MultiBlockRegistry.register(new OperatorInitializer(MultiBlock.NOT) {
             @Override
             public Operator getOperator() {
                 return new OperatorNot();
             }
         });
-        MultiBlockRegistry.register(new OperatorInitializer(AND) {
+        MultiBlockRegistry.register(new OperatorInitializer(MultiBlock.AND) {
             @Override public Operator getOperator() {
                 return new OperatorAnd();
             }
         });
-        MultiBlockRegistry.register(new OperatorInitializer(OR) {
+        MultiBlockRegistry.register(new OperatorInitializer(MultiBlock.OR) {
             @Override public Operator getOperator() {
                 return new OperatorOr();
             }
         });
 
         //Duplicators
-        MultiBlockRegistry.registerDuplicator(new OperatorInitializer(DUPLICATE_LEVEL_0) {
-            @Override public Operator getOperator() {
-                return new OperatorDuplicate();
-            }
-        });
-        MultiBlockRegistry.registerDuplicator(new OperatorInitializer(DUPLICATE_LEVEL_1) {
-            @Override public Operator getOperator() {
-                return new OperatorDuplicate();
-            }
-        });
-        MultiBlockRegistry.registerDuplicator(new OperatorInitializer(DUPLICATE_LEVEL_2) {
-            @Override public Operator getOperator() {
-                return new OperatorDuplicate();
-            }
-        });
+        for (Character duplicator : MultiBlock.DUPLICATORS) {
+            MultiBlockRegistry.registerDuplicator(new OperatorInitializer(duplicator) {
+                @Override public Operator getOperator() {
+                    return new OperatorDuplicate();
+                }
+            });
+        }
     }
 
 }

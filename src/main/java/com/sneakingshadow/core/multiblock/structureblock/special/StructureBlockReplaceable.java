@@ -3,12 +3,12 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.OPAQUE_MATERIAL;
+import static com.sneakingshadow.core.multiblock.MultiBlock.REPLACEABLE_BLOCK;
 
-public class SBlockOpaqueMaterial extends StructureBlock {
+public class StructureBlockReplaceable extends StructureBlock {
 
     public boolean blockIsValid(World world, int x, int y, int z){
-        return world.getBlock(x,y,z).getMaterial().isOpaque();
+        return world.getBlock(x,y,z).isReplaceable(world,x,y,z);
     }
 
     /**
@@ -20,7 +20,7 @@ public class SBlockOpaqueMaterial extends StructureBlock {
     }
 
     public String toString() {
-        return "'" + OPAQUE_MATERIAL + "'";
+        return "'" + REPLACEABLE_BLOCK + "'";
     }
 
     /**
@@ -28,6 +28,6 @@ public class SBlockOpaqueMaterial extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockOpaqueMaterial;
+        return structureBlock instanceof StructureBlockReplaceable;
     }
 }

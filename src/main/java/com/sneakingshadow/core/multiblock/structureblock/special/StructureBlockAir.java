@@ -3,12 +3,12 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.REPLACEABLE_BLOCK;
+import static com.sneakingshadow.core.multiblock.MultiBlock.AIR;
 
-public class SBlockReplaceable extends StructureBlock {
+public class StructureBlockAir extends StructureBlock {
 
     public boolean blockIsValid(World world, int x, int y, int z){
-        return world.getBlock(x,y,z).isReplaceable(world,x,y,z);
+        return world.getBlock(x,y,z).isAir(world,x,y,z);
     }
 
     /**
@@ -20,7 +20,7 @@ public class SBlockReplaceable extends StructureBlock {
     }
 
     public String toString() {
-        return "'" + REPLACEABLE_BLOCK + "'";
+        return "'" + AIR + "'";
     }
 
     /**
@@ -28,6 +28,6 @@ public class SBlockReplaceable extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockReplaceable;
+        return structureBlock instanceof StructureBlockAir;
     }
 }

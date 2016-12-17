@@ -3,9 +3,9 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.FULL_BLOCK;
+import static com.sneakingshadow.core.multiblock.MultiBlock.FULL_BLOCK;
 
-public class SBlockFull extends StructureBlock {
+public class StructureBlockFull extends StructureBlock {
 
     public boolean blockIsValid(World world, int x, int y, int z){
         return world.getBlock(x,y,z).isOpaqueCube();
@@ -28,6 +28,6 @@ public class SBlockFull extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockFull;
+        return structureBlock instanceof StructureBlockFull;
     }
 }

@@ -3,15 +3,12 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NULL;
+import static com.sneakingshadow.core.multiblock.MultiBlock.OPAQUE_LIGHT;
 
-/**
- * Created by SneakingShadow on 23.11.2016.
- */
-public class SBlockNull extends StructureBlock {
+public class StructureBlockOpaque extends StructureBlock {
 
     public boolean blockIsValid(World world, int x, int y, int z){
-        return true;
+        return world.getBlock(x,y,z).getLightOpacity(world,x,y,z) == 255;
     }
 
     /**
@@ -19,11 +16,11 @@ public class SBlockNull extends StructureBlock {
      */
     @Override
     public boolean startCheckingForStructure(World world, int x, int y, int z) {
-        return true;
+        return blockIsValid(world, x, y, z);
     }
 
     public String toString() {
-        return "'" + NULL + "'";
+        return "'" + OPAQUE_LIGHT + "'";
     }
 
     /**
@@ -31,6 +28,6 @@ public class SBlockNull extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockNull;
+        return structureBlock instanceof StructureBlockOpaque;
     }
 }

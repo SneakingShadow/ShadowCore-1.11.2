@@ -1,7 +1,7 @@
 package com.sneakingshadow.core.multiblock;
 
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
-import com.sneakingshadow.core.multiblock.structureblock.special.SBlockNull;
+import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockNull;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -17,19 +17,19 @@ class StructureArray {
     StructureArray() {
         structure.add(new ArrayList<ArrayList<StructureBlock>>());
         structure.get(0).add(new ArrayList<StructureBlock>());
-        structure.get(0).get(0).add(new SBlockNull());
+        structure.get(0).get(0).add(new StructureBlockNull());
     }
 
 
     void set(int x, int y, int z, StructureBlock structureBlock) {
         ensureCapacity(x,y,z);
-        structure.get(x).get(y).set(z, structureBlock == null ? new SBlockNull() : structureBlock);
+        structure.get(x).get(y).set(z, structureBlock == null ? new StructureBlockNull() : structureBlock);
     }
 
     StructureBlock get(int x, int y, int z) {
         if (x < sizeX() && y < sizeY() && z < sizeZ())
             return structure.get(x).get(y).get(z);
-        return new SBlockNull();
+        return new StructureBlockNull();
     }
 
     boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
@@ -81,7 +81,7 @@ class StructureArray {
                     for (int iy = 0; iy < structure.get(ix).size(); iy++)
                         //Ensure z array
                         for (int iz = structure.get(ix).get(iy).size(); iz < z + 1; iz++)
-                            structure.get(ix).get(iy).add(new SBlockNull());
+                            structure.get(ix).get(iy).add(new StructureBlockNull());
 
                 //Ensure y array. Doesn't need to check if y_bool, as iy < y+1 serves this function
                 for (int iy = structure.get(ix).size(); iy < y+1; iy++)
@@ -104,7 +104,7 @@ class StructureArray {
     private ArrayList<StructureBlock> getEmptyArray(int z) {
         ArrayList<StructureBlock> arrayList = new ArrayList<StructureBlock>();
         for (int iz = 0; iz < maxZ(z); iz++) {
-            arrayList.add(new SBlockNull());
+            arrayList.add(new StructureBlockNull());
         }
         return arrayList;
     }

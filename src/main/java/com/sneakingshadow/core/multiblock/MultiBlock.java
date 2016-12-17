@@ -1,13 +1,42 @@
 package com.sneakingshadow.core.multiblock;
 
+import com.sneakingshadow.core.util.ShadowUtil;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-import static com.sneakingshadow.core.util.MultiBlockUtil.rotate;
+import static com.sneakingshadow.core.util.ShadowUtil.rotate;
 
 public class MultiBlock {
+
+    //Special values
+    public static final Character NULL = ' ';
+    public static final Character FULL_BLOCK = '+';
+    public static final Character AIR = '_';
+    public static final Character REPLACEABLE_BLOCK = '-';
+    public static final Character LIQUID = '~';
+    public static final Character OPAQUE_MATERIAL = '*';
+    public static final Character OPAQUE_LIGHT = '#';
+    //Operators
+    public static final Character BRACKET_START = '(';
+    public static final Character BRACKET_END = ')';
+    public static final Character NOT = '!';
+    public static final Character AND = '&';
+    public static final Character OR = '|';
+    //Duplicators
+    public static final Character DUPLICATE_LEVEL_0 = '<';
+    public static final Character DUPLICATE_LEVEL_1 = '>';
+    public static final Character DUPLICATE_LEVEL_2 = '=';
+    public static final Character[] DUPLICATORS = {DUPLICATE_LEVEL_0, DUPLICATE_LEVEL_1, DUPLICATE_LEVEL_2};
+    //Modifiers
+    public static final Character ORE_DICTIONARY = '@';
+    //Mapping
+    public static final Character STRING_KEY = '^';
+    //Structure modifiers
+    public static final Character NEXT_LINE = '/';
+    public static final Character NEXT_LEVEL = '\\';
+
 
     private StructureArray structureArray;
     private boolean rotatesAroundX = false;
@@ -17,6 +46,31 @@ public class MultiBlock {
     public MultiBlock(Object... objects) {
         structureArray = InputHandler.getStructureArray(objects);
     }
+
+
+    public MultiBlock setRotationXAxis(boolean bool) {
+        rotatesAroundX = bool;
+        return this;
+    }
+    public MultiBlock setRotationYAxis(boolean bool) {
+        rotatesAroundY = bool;
+        return this;
+    }
+    public MultiBlock setRotationZAxis(boolean bool) {
+        rotatesAroundZ = bool;
+        return this;
+    }
+
+    public int sizeX() {
+        return structureArray.sizeX();
+    }
+    public int sizeY() {
+        return structureArray.sizeY();
+    }
+    public int sizeZ() {
+        return structureArray.sizeZ();
+    }
+
 
     /**
      * Checks for a structure in world, in any possible position that overlaps x,y,z.
@@ -57,19 +111,17 @@ public class MultiBlock {
         if (y < 0 || y > 255)
             return structures;
 
-
-        //Loop through array
         for (int ix = 0; ix < structureArray.sizeX(); ix++) {
             for (int iy = 0; iy < structureArray.sizeY(); iy++) {
                 for (int iz = 0; iz < structureArray.sizeZ(); iz++) {
 
-                    if (structureArray.get(ix, iy, iz).startCheckingForStructure(world, x, y, z)) { //Check for structure at these array coordinates
-                        // Looks at array as a cube with 6 sides and 4 possible rotations per side.
+                    if (structureArray.get(ix, iy, iz).startCheckingForStructure(world, x, y, z)) {
+                        //Looks at structureArray as a cube with 6 sides and 4 possible rotations per side.
 
                         //Top side, and if rotatesAroundX or rotatesAroundZ then the bottom side as well
                         for (int rotationX = 0; rotationX < (rotatesAroundX || rotatesAroundZ ? 4 : 1); rotationX += 2) {
                             for (int rotationY = 0; rotationY < (rotatesAroundY ? 4 : 1); rotationY++) {
-                                Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, rotationY, 0, 0);
+                                Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, rotationY, 0, ShadowUtil.Y_AXIS_FACES);
                                 if (structure != null && (!excludeDuplicates || !containsStructure(structures, structure))) {
                                     structures.add(structure);
                                     if (!checkAllStructures)
@@ -77,23 +129,12 @@ public class MultiBlock {
                                 }
                             }
                         }
+
                         //Two of the four sides that are not top nor bottom, that are inaccessible by rotationZ
                         if (rotatesAroundX)
                             for (int rotationX = 1; rotationX < 4; rotationX += 2) {
                                 for (int rotationZ = 0; rotationZ < (rotatesAroundZ ? 4 : 1); rotationZ++) {
-                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 1);
-                                    if (structure != null && (!excludeDuplicates || !containsStructure(structures, structure))) {
-                                        structures.add(structure);
-                                        if (!checkAllStructures)
-                                            return structures;
-                                    }
-                                }
-                            }
-                        //Two of the four sides that are not top nor bottom, that are inaccessible by rotationX
-                        if (rotatesAroundZ)
-                            for (int rotationZ = 1; rotationZ < 4; rotationZ += 2) {
-                                for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
-                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, 2);
+                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, ShadowUtil.X_AXIS_FACES);
                                     if (structure != null && (!excludeDuplicates || !containsStructure(structures, structure))) {
                                         structures.add(structure);
                                         if (!checkAllStructures)
@@ -102,6 +143,18 @@ public class MultiBlock {
                                 }
                             }
 
+                        //Two of the four sides that are not top nor bottom, that are inaccessible by rotationX
+                        if (rotatesAroundZ)
+                            for (int rotationZ = 1; rotationZ < 4; rotationZ += 2) {
+                                for (int rotationX = 0; rotationX < (rotatesAroundX ? 4 : 1); rotationX++) {
+                                    Structure structure = validate(world, x, y, z, ix, iy, iz, rotationX, 0, rotationZ, ShadowUtil.Z_AXIS_FACES);
+                                    if (structure != null && (!excludeDuplicates || !containsStructure(structures, structure))) {
+                                        structures.add(structure);
+                                        if (!checkAllStructures)
+                                            return structures;
+                                    }
+                                }
+                            }
                     }
                 }
             }
@@ -109,8 +162,6 @@ public class MultiBlock {
 
         return structures;
     }
-
-
 
 
     /**
@@ -131,13 +182,17 @@ public class MultiBlock {
      * Validates there's a structure in world, with specified corner and rotation
      * */
     public boolean validate(World world, Vec3 cornerPosition, int rotationX, int rotationY, int rotationZ, int flag) {
+        Vec3 rotation = rotate(Vec3.createVectorHelper(1,1,1), rotationX, rotationY, rotationZ, flag);
+
         for (int x = 0; x < structureArray.sizeX(); x++) {
             for (int y = 0; y < structureArray.sizeY(); y++) {
                 for (int z = 0; z < structureArray.sizeZ(); z++) {
                     Vec3 currentArrayPosition = Vec3.createVectorHelper(x,y,z);
-                    Vec3 currentWorldPosition = rotate(
-                            Vec3.createVectorHelper(x,y,z), rotationX, rotationY, rotationZ, flag //can't rotate currentArrayPosition, and therefore have to make a new one
-                    ).addVector(cornerPosition.xCoord, cornerPosition.yCoord, cornerPosition.zCoord);
+                    Vec3 currentWorldPosition = Vec3.createVectorHelper(
+                            cornerPosition.xCoord + rotation.xCoord*x,
+                            cornerPosition.yCoord + rotation.yCoord*y,
+                            cornerPosition.zCoord + rotation.zCoord*z
+                    );
 
                     if (!structureArray.blockIsValid(world, currentWorldPosition, currentArrayPosition, rotationX, rotationY, rotationZ)) {
                         structureArray.reset();
@@ -150,8 +205,6 @@ public class MultiBlock {
 
         return true;
     }
-
-
 
 
     private boolean containsStructure(ArrayList<Structure> structureList, Structure structure) {
@@ -225,34 +278,6 @@ public class MultiBlock {
 
         return true;
     }
-
-
-
-
-    public MultiBlock setRotationXAxis(boolean bool) {
-        rotatesAroundX = bool;
-        return this;
-    }
-    public MultiBlock setRotationYAxis(boolean bool) {
-        rotatesAroundY = bool;
-        return this;
-    }
-    public MultiBlock setRotationZAxis(boolean bool) {
-        rotatesAroundZ = bool;
-        return this;
-    }
-
-    public int sizeX() {
-        return structureArray.sizeX();
-    }
-    public int sizeY() {
-        return structureArray.sizeY();
-    }
-    public int sizeZ() {
-        return structureArray.sizeZ();
-    }
-
-
 
     /**
      * Outputs the structure in string form.

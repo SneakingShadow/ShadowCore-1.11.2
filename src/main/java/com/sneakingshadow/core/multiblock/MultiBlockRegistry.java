@@ -10,45 +10,12 @@ import java.util.ArrayList;
 
 public class MultiBlockRegistry {
 
-    //Special values
-    public static final Character NULL = ' ';
-    public static final Character FULL_BLOCK = '+';
-    public static final Character AIR = '_';
-    public static final Character REPLACEABLE_BLOCK = '-';
-    public static final Character LIQUID = '~';
-    public static final Character OPAQUE_MATERIAL = '*';
-    public static final Character OPAQUE_LIGHT = '#';
-
-    //Operators
-    public static final Character BRACKET_START = '(';
-    public static final Character BRACKET_END = ')';
-    public static final Character NOT = '!';
-    public static final Character AND = '&';
-    public static final Character OR = '|';
-
-    //Duplicators
-    public static final Character DUPLICATE_LEVEL_0 = '<';
-    public static final Character DUPLICATE_LEVEL_1 = '>';
-    public static final Character DUPLICATE_LEVEL_2 = '=';
-
-    //Modifiers
-    public static final Character ORE_DICTIONARY = '@';
-
-    //Mapping
-    public static final Character STRING_KEY = '^';
-
-    //Structure modifiers
-    public static final Character NEXT_LINE = '/';
-    public static final Character NEXT_LEVEL = '\\';
-
-
-
     private static ArrayList<Character> specialCharactersUsed = new ArrayList<Character>();
     private static ArrayList<Character> operatorsUsed = new ArrayList<Character>();
 
     private static ArrayList<Character> otherCharactersUsed = ArrayListHelper.createArrayList(
             'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-            STRING_KEY, ORE_DICTIONARY, BRACKET_START, BRACKET_END, NEXT_LINE, NEXT_LEVEL
+            MultiBlock.STRING_KEY, MultiBlock.ORE_DICTIONARY, MultiBlock.BRACKET_START, MultiBlock.BRACKET_END, MultiBlock.NEXT_LINE, MultiBlock.NEXT_LEVEL
     );
 
     private static ArrayList<SpecialCharacterInitializer> specialCharacterInitializerList = new ArrayList<SpecialCharacterInitializer>();
@@ -130,4 +97,8 @@ public class MultiBlockRegistry {
         return false;
     }
 
+
+    public void shout() {
+        System.out.println("shout");
+    }
 }

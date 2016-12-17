@@ -1,11 +1,11 @@
 package com.sneakingshadow.core.multiblock;
 
-import com.sneakingshadow.core.util.MultiBlockUtil;
+import com.sneakingshadow.core.util.ShadowUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.util.MultiBlockUtil.rotate;
+import static com.sneakingshadow.core.util.ShadowUtil.rotate;
 
 /**
  * Created by SneakingShadow on 23.11.2016.
@@ -37,10 +37,6 @@ public class Structure {
 
     public boolean stillValid() {
         return multiBlock.validate(world, startCorner, rotationX, rotationY, rotationZ, flag);
-    }
-
-    public MultiBlock getMultiBlock() {
-        return multiBlock;
     }
 
     /**
@@ -101,9 +97,15 @@ public class Structure {
         y = y < multiBlock.sizeY() ? y : multiBlock.sizeY()-1;
         z = z < multiBlock.sizeZ() ? z : multiBlock.sizeZ()-1;
 
-        Vec3 arrayPosition = MultiBlockUtil.rotate(Vec3.createVectorHelper(x,y,z),rotationX,rotationY,rotationZ,flag);
+        Vec3 arrayPosition = ShadowUtil.rotate(Vec3.createVectorHelper(x,y,z),rotationX,rotationY,rotationZ,flag);
 
         return arrayPosition.subtract(startCorner);
+    }
+
+    /*---------------Get functions---------------*/
+
+    public MultiBlock getMultiBlock() {
+        return multiBlock;
     }
 
     public int getStartXCoord() {
@@ -139,6 +141,8 @@ public class Structure {
     public int getFlag() {
         return flag;
     }
+
+
 
     private void setEndCorner() {
         Vec3 arraySize = rotate(Vec3.createVectorHelper(multiBlock.sizeX()-1, multiBlock.sizeY()-1, multiBlock.sizeZ()-1), rotationX,rotationY,rotationZ, flag);

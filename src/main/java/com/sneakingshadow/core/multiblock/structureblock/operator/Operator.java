@@ -1,11 +1,10 @@
 package com.sneakingshadow.core.multiblock.structureblock.operator;
 
+import com.sneakingshadow.core.multiblock.MultiBlock;
 import com.sneakingshadow.core.multiblock.MultiBlockRegistry;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 
 import java.util.ArrayList;
-
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.*;
 
 /**
  * Created by SneakingShadow on 23.11.2016.
@@ -45,9 +44,9 @@ public abstract class Operator extends StructureBlock {
         return insideRange(inputList, position)
                 && !(inputList.get(position) instanceof Character
                         && (
-                                NEXT_LINE.equals(inputList.get(position))
-                                || NEXT_LEVEL.equals(inputList.get(position))
-                                || STRING_KEY.equals(inputList.get(position))
+                                MultiBlock.NEXT_LINE.equals(inputList.get(position))
+                                || MultiBlock.NEXT_LEVEL.equals(inputList.get(position))
+                                || MultiBlock.STRING_KEY.equals(inputList.get(position))
                         )
                         && MultiBlockRegistry.operatorUsed((Character)inputList.get(position))
                 );

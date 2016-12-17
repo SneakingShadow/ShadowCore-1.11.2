@@ -1,21 +1,21 @@
 package com.sneakingshadow.core.multiblock.structureblock.operator;
 
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
-import com.sneakingshadow.core.multiblock.structureblock.special.SBlockNull;
+import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockNull;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.NOT;
+import static com.sneakingshadow.core.multiblock.MultiBlock.NOT;
 
 /**
  * Created by SneakingShadow on 23.11.2016.
  */
 public class OperatorNot extends Operator {
 
-    private StructureBlock operand = new SBlockNull(); //Will be inverted to always false
+    private StructureBlock operand = new StructureBlockNull(); //Will be inverted to always false
 
     private Object operand_input;
 
@@ -63,7 +63,7 @@ public class OperatorNot extends Operator {
      * */
     public StructureBlock map(HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap) {
         operand = mapObjectNull(operand_input, charMap, stringMap);
-        operand = operand != null ? operand : new SBlockNull();
+        operand = operand != null ? operand : new StructureBlockNull();
 
         return this;
     }

@@ -3,12 +3,15 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.AIR;
+import static com.sneakingshadow.core.multiblock.MultiBlock.NULL;
 
-public class SBlockAir extends StructureBlock {
+/**
+ * Created by SneakingShadow on 23.11.2016.
+ */
+public class StructureBlockNull extends StructureBlock {
 
     public boolean blockIsValid(World world, int x, int y, int z){
-        return world.getBlock(x,y,z).isAir(world,x,y,z);
+        return true;
     }
 
     /**
@@ -16,11 +19,11 @@ public class SBlockAir extends StructureBlock {
      */
     @Override
     public boolean startCheckingForStructure(World world, int x, int y, int z) {
-        return blockIsValid(world, x, y, z);
+        return true;
     }
 
     public String toString() {
-        return "'" + AIR + "'";
+        return "'" + NULL + "'";
     }
 
     /**
@@ -28,6 +31,6 @@ public class SBlockAir extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockAir;
+        return structureBlock instanceof StructureBlockNull;
     }
 }

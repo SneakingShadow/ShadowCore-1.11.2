@@ -19,7 +19,4 @@ MultiBlock:
 
 Fix up in rotation and stair structure block
 
-Maybe add a rotateToFaces(MultiBlock.Face... faces). 
-And also add rotateAroundFace() or rotateAroundFace(MultiBlock.Face... faces).
-Although this could be needlessly complicated.
-If done, have rotateToFace(MultiBlock.Face face) be in Face class in MultiBlock
+Make registry an object in multiblock

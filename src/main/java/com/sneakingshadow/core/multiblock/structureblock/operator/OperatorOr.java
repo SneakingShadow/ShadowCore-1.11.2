@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.sneakingshadow.core.multiblock.MultiBlockRegistry.OR;
+import static com.sneakingshadow.core.multiblock.MultiBlock.OR;
 
 /**
  * Created by SneakingShadow on 23.11.2016.
