@@ -1,5 +1,6 @@
 package com.sneakingshadow.core.multiblock;
 
+import com.sneakingshadow.core.util.MultiBlockUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -90,6 +91,19 @@ public class Structure {
         setEndCorner();
 
         return this;
+    }
+
+    /**
+     * Returns the coordinate that's equal to the position in the structure array at x,y,z.
+     * */
+    public Vec3 getWorldCoordinate(int x, int y, int z) {
+        x = x < multiBlock.sizeX() ? x : multiBlock.sizeX()-1;
+        y = y < multiBlock.sizeY() ? y : multiBlock.sizeY()-1;
+        z = z < multiBlock.sizeZ() ? z : multiBlock.sizeZ()-1;
+
+        Vec3 arrayPosition = MultiBlockUtil.rotate(Vec3.createVectorHelper(x,y,z),rotationX,rotationY,rotationZ,flag);
+
+        return arrayPosition.subtract(startCorner);
     }
 
     public int getStartXCoord() {
