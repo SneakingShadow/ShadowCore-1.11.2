@@ -3,7 +3,7 @@ package com.sneakingshadow.core.multiblock.structureblock.special;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
 import net.minecraft.world.World;
 
-public class SBlockFalse extends StructureBlock {
+public class StructureBlockFalse extends StructureBlock {
 
     @Override
     public boolean startCheckingForStructure(World world, int x, int y, int z) {
@@ -20,6 +20,6 @@ public class SBlockFalse extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockFalse;
+        return structureBlock instanceof StructureBlockFalse;
     }
 }

@@ -32,9 +32,9 @@ class StructureArray {
         return new StructureBlockNull();
     }
 
-    boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
+    boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ, int flag) {
         return get((int)arrayPosition.xCoord, (int)arrayPosition.yCoord, (int)arrayPosition.zCoord)
-                .blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ);
+                .blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ, flag);
     }
 
 

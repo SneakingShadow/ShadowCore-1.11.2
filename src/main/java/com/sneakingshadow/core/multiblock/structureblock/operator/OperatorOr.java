@@ -1,7 +1,7 @@
 package com.sneakingshadow.core.multiblock.structureblock.operator;
 
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
-import com.sneakingshadow.core.multiblock.structureblock.special.SBlockFalse;
+import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockFalse;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -15,15 +15,15 @@ import static com.sneakingshadow.core.multiblock.MultiBlock.OR;
  */
 public class OperatorOr extends Operator {
 
-    private StructureBlock operand_1 = new SBlockFalse();
-    private StructureBlock operand_2 = new SBlockFalse();
+    private StructureBlock operand_1 = new StructureBlockFalse();
+    private StructureBlock operand_2 = new StructureBlockFalse();
 
     private Object operand_1_input;
     private Object operand_2_input;
 
-    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
-        return operand_1.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord)
-                || operand_2.blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord);
+    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ, int flag) {
+        return operand_1.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ, flag)
+                || operand_2.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ, flag);
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by SneakingShadow on 22.11.2016.
  */
-public class SBlockArrayList extends StructureBlock {
+public class StructureBlockArrayList extends StructureBlock {
 
     private ArrayList<StructureBlock> arrayList = new ArrayList<StructureBlock>();
     private ArrayList<Object> inputList = new ArrayList<Object>();
@@ -23,18 +23,18 @@ public class SBlockArrayList extends StructureBlock {
         return arrayList;
     }
 
-    public SBlockArrayList(ArrayList<Object> inputList) {
+    public StructureBlockArrayList(ArrayList<Object> inputList) {
         this.inputList = inputList;
     }
 
-    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
+    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ, int flag) {
         //adds missing booleans
         for (int i = boolList.size(), size = arrayList.size(); i < size; i++)
             boolList.add(true);
 
         for (int i = 0, size = arrayList.size(); i < size; i++) {
             boolList.set(i,
-                    boolList.get(i) && arrayList.get(i).blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ)
+                    boolList.get(i) && arrayList.get(i).blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ, flag)
             );
         }
 
@@ -50,7 +50,7 @@ public class SBlockArrayList extends StructureBlock {
      * Used by ArrayList to reset information of valid calls.
      * */
     public void reset() {
-        boolList = new ArrayList<Boolean>();
+        boolList = new ArrayList<>();
         for (StructureBlock structureBlock : arrayList) {
             structureBlock.reset();
             boolList.add(true);

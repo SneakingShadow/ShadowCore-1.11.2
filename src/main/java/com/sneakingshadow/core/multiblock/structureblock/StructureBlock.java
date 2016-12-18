@@ -1,6 +1,6 @@
 package com.sneakingshadow.core.multiblock.structureblock;
 
-import com.sneakingshadow.core.multiblock.structureblock.special.SBlockFalse;
+import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockFalse;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -37,11 +37,11 @@ public abstract class StructureBlock {
      * @param rotationX rotation around xAxis
      * @param rotationY rotation around yAxis
      * @param rotationZ rotation around zAxis
-     *
-     * Note:
-     *     Rotations go from 0 to 3, and are measured in rotations of 90°, which is equal to 1/2 pi radians.
-     * */
-    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
+     * @param flag used by ShadowUtil.rotate for optimization purposes
+*
+* Note:
+*     Rotations go from 0 to 3 and are multiplied by 90 degrees.      */
+    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ, int flag) {
         return blockIsValid(world, (int)worldPosition.xCoord, (int)worldPosition.yCoord, (int)worldPosition.zCoord);
     }
 
@@ -102,6 +102,6 @@ public abstract class StructureBlock {
     public StructureBlock mapObject(Object object, HashMap<Character, StructureBlock> charMap, HashMap<String, StructureBlock> stringMap) {
         StructureBlock structureBlock = mapObjectNull(object, charMap, stringMap);
 
-        return structureBlock != null ? structureBlock : new SBlockFalse();
+        return structureBlock != null ? structureBlock : new StructureBlockFalse();
     }
 }

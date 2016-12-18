@@ -38,6 +38,7 @@ public class MultiBlock {
     public static final Character NEXT_LEVEL = '\\';
 
 
+
     private StructureArray structureArray;
     private boolean rotatesAroundX = false;
     private boolean rotatesAroundY = true;
@@ -194,7 +195,7 @@ public class MultiBlock {
                             cornerPosition.zCoord + rotation.zCoord*z
                     );
 
-                    if (!structureArray.blockIsValid(world, currentWorldPosition, currentArrayPosition, rotationX, rotationY, rotationZ)) {
+                    if (!structureArray.blockIsValid(world, currentWorldPosition, currentArrayPosition, rotationX, rotationY, rotationZ, flag)) {
                         structureArray.reset();
                         return false;
                     }

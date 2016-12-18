@@ -3,16 +3,16 @@ package com.sneakingshadow.core.multiblock.structureblock;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class SBlockBlock extends StructureBlock {
+public class StructureBlockBlock extends StructureBlock {
 
     private Block block;
     private int metadata;
 
-    public SBlockBlock(Block block) {
+    public StructureBlockBlock(Block block) {
         this(block, -1);
     }
 
-    public SBlockBlock(Block block, int metadata) {
+    public StructureBlockBlock(Block block, int metadata) {
         this.block = block;
         this.metadata = metadata;
     }
@@ -32,7 +32,7 @@ public class SBlockBlock extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockBlock && block == ((SBlockBlock) structureBlock).getBlock() && metadata == ((SBlockBlock) structureBlock).getMetadata();
+        return structureBlock instanceof StructureBlockBlock && block == ((StructureBlockBlock) structureBlock).getBlock() && metadata == ((StructureBlockBlock) structureBlock).getMetadata();
     }
 
     public Block getBlock() {

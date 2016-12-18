@@ -19,8 +19,8 @@ public class OperatorNot extends Operator {
 
     private Object operand_input;
 
-    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ) {
-        return !operand.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ);
+    public boolean blockIsValid(World world, Vec3 worldPosition, Vec3 arrayPosition, int rotationX, int rotationY, int rotationZ, int flag) {
+        return !operand.blockIsValid(world, worldPosition, arrayPosition, rotationX, rotationY, rotationZ, flag);
     }
 
     /**

@@ -1,10 +1,10 @@
 package com.sneakingshadow.core.multiblock;
 
 import com.sneakingshadow.core.multiblock.initializer.OperatorInitializer;
-import com.sneakingshadow.core.multiblock.structureblock.SBlockArrayList;
-import com.sneakingshadow.core.multiblock.structureblock.SBlockBlock;
-import com.sneakingshadow.core.multiblock.structureblock.SBlockOreDictionary;
 import com.sneakingshadow.core.multiblock.structureblock.StructureBlock;
+import com.sneakingshadow.core.multiblock.structureblock.StructureBlockArrayList;
+import com.sneakingshadow.core.multiblock.structureblock.StructureBlockBlock;
+import com.sneakingshadow.core.multiblock.structureblock.StructureBlockOreDictionary;
 import com.sneakingshadow.core.multiblock.structureblock.operator.Operator;
 import com.sneakingshadow.core.multiblock.structureblock.special.StructureBlockNull;
 import com.sneakingshadow.core.util.ArrayListHelper;
@@ -261,7 +261,7 @@ class InputHandler {
             for (int i = 0, arrayListLength = arrayList.size(); i < arrayListLength; i++) {
                 Object object = arrayList.get(i);
                 if (object instanceof ArrayList) {
-                    arrayList.set(i, new SBlockArrayList(
+                    arrayList.set(i, new StructureBlockArrayList(
                             (new InputHandler(((ArrayList) object).toArray(), charMap, stringMap)).sortInput(false)
                     ));
                 }
@@ -282,7 +282,7 @@ class InputHandler {
                 if (object instanceof Character && MultiBlock.ORE_DICTIONARY.equals(object) && i + 1 < arrayList.size()) {
                     Object object_2 = arrayList.get(++i);
                     if (object_2 instanceof String)
-                        inputList.add(new SBlockOreDictionary((String) object_2));
+                        inputList.add(new StructureBlockOreDictionary((String) object_2));
                     else
                         inputList.add(object_2);
                 } else if (object instanceof String) {
@@ -291,7 +291,7 @@ class InputHandler {
                     for (String string : stringList) {
                         if (MultiBlock.ORE_DICTIONARY.equals(string.charAt(0))) {
                             if (string.length() > 1)
-                                inputList.add(new SBlockOreDictionary(string.substring(1, string.length())));
+                                inputList.add(new StructureBlockOreDictionary(string.substring(1, string.length())));
                         } else if (!string.isEmpty())
                             inputList.add(string);
                     }
@@ -316,11 +316,11 @@ class InputHandler {
                 if (block == Blocks.air)
                     inputList.add(new StructureBlockNull());
                 else
-                    inputList.add(new SBlockBlock(block));
+                    inputList.add(new StructureBlockBlock(block));
             }
             else if (object instanceof Block)
             {
-                inputList.add(new SBlockBlock((Block) object));
+                inputList.add(new StructureBlockBlock((Block) object));
             }
             else if (object instanceof ItemStack)
             {
@@ -328,7 +328,7 @@ class InputHandler {
                 if (block == Blocks.air)
                     inputList.add(new StructureBlockNull());
                 else
-                    inputList.add(new SBlockBlock(block, ((ItemStack) object).getItemDamage()));
+                    inputList.add(new StructureBlockBlock(block, ((ItemStack) object).getItemDamage()));
             }
             else if (object == null)
             {
@@ -509,8 +509,8 @@ class InputHandler {
             for (int i = 0, arrayListSize = arrayList.size(); i < arrayListSize; i++) {
                 Object object = arrayList.get(i);
 
-                if (object instanceof SBlockArrayList) {
-                    ArrayList<Object> arrayInputList = ((SBlockArrayList) object).getInputList();
+                if (object instanceof StructureBlockArrayList) {
+                    ArrayList<Object> arrayInputList = ((StructureBlockArrayList) object).getInputList();
                     if (!arrayInputList.isEmpty()) {
                         if (arrayInputList.size() == 1)
                             arrayList.set(i, arrayInputList.get(0));

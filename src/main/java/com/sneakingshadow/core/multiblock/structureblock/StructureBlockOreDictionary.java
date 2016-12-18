@@ -3,11 +3,11 @@ package com.sneakingshadow.core.multiblock.structureblock;
 import com.sneakingshadow.core.util.OreDictionaryHelper;
 import net.minecraft.world.World;
 
-public class SBlockOreDictionary extends StructureBlock {
+public class StructureBlockOreDictionary extends StructureBlock {
 
     private String ore_name;
 
-    public SBlockOreDictionary (String string) {
+    public StructureBlockOreDictionary(String string) {
         ore_name = string;
     }
 
@@ -28,7 +28,7 @@ public class SBlockOreDictionary extends StructureBlock {
      * */
     @Override
     public boolean equalsStructureBlock(StructureBlock structureBlock) {
-        return structureBlock instanceof SBlockOreDictionary && ore_name.equals(((SBlockOreDictionary) structureBlock).getOreName());
+        return structureBlock instanceof StructureBlockOreDictionary && ore_name.equals(((StructureBlockOreDictionary) structureBlock).getOreName());
     }
 
     public String getOreName() {
