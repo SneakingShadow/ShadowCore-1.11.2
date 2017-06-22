@@ -8,14 +8,18 @@ Thumbs.db
 /gradle
 /build
 /gradlew*
+/gradle.properties
 
 ## Forge
 /CREDITS-fml.txt
 /LICENSE-fml.txt
+/LICENSE-new.txt
 /MinecraftForge-Credits.txt
 /MinecraftForge-License.txt
 /README.txt
 /forge*changelog.txt
+/Paulscode IBXM Library License.txt
+/Paulscode SoundSystem CodecIBXM License.txt
 
 ## Example mod
 /src/main/java/com/example
@@ -46,3 +50,4 @@ Thumbs.db
 ## Jars
 *.jar
 !/gradle/wrapper/gradle-wrapper.jar
+
